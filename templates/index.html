@@ -1,0 +1,259 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  @media (max-width: 767.98px) {
+    .col-md-4 .category-wrap {
+      margin-top: 20px;
+    }
+  }
+  </style>
+<section id="home-section" class="hero">
+  <div class="home-slider owl-carousel" style="overflow: auto;">
+    <div class="slider-item" style="background-image: url({% static 'images/bg_1.jpg' %});">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
+
+          <div class="col-md-12 ftco-animate text-center">
+            <h1 class="mb-2"><b>Welcome to SONIPS Communications</b></h1>
+            <h2 class="subheading mb-4">Find Your Perfect Device at SONIPS Communications</h2>
+            <p><a href="#" class="btn btn-primary">View Details</a></p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="slider-item" style="background-image: url({% static 'images/bg_2.jpg' %});">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
+
+          <div class="col-sm-12 ftco-animate text-center">
+            <h1 class="mb-2"><b>Discover Unbeatable Prices</b></h1>
+            <h2 class="subheading mb-4">Shop the Best Deals on Phones and Gadgets at SONIPS Communications</h2>
+            <p><a href="#" class="btn btn-primary">View Details</a></p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="slider-item" style="background-image: url({% static 'images/bg_3.jpg' %});">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
+
+          <div class="col-md-12 ftco-animate text-center">
+            <h1 class="mb-2"><b>Transform Your Gadgets Collection</b></h1>
+            <h2 class="subheading mb-4">Upgrade to the Next Level of Technology</h2>
+            <p><a href="#" class="btn btn-primary">View Details</a></p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ftco-section">
+  <div class="container">
+    <div class="row no-gutters ftco-services">
+      <div class="col-md-3 text-center d-flex align-self-stretch ftco-animate">
+        <div class="media block-6 services mb-md-0 mb-4">
+          <div class="icon bg-color-1 active d-flex justify-content-center align-items-center mb-2">
+            <span class="flaticon-shipped"></span>
+          </div>
+          <div class="media-body">
+            <h3 class="heading">Free Shipping</h3>
+            <span>On order(s) over ₦50000</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 text-center d-flex align-self-stretch ftco-animate">
+        <div class="media block-6 services mb-md-0 mb-4">
+          <div class="icon bg-color-2 d-flex justify-content-center align-items-center mb-2">
+            <span class="flaticon-award"></span>
+          </div>
+          <div class="media-body">
+            <h3 class="heading">Latest Gadgets</h3>
+            <span>Ignite Innovation</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 text-center d-flex align-self-stretch ftco-animate">
+        <div class="media block-6 services mb-md-0 mb-4">
+          <div class="icon bg-color-3 d-flex justify-content-center align-items-center mb-2">
+            <span class="flaticon-award"></span>
+          </div>
+          <div class="media-body">
+            <h3 class="heading">Superior Quality</h3>
+            <span>Quality Products</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 text-center d-flex align-self-stretch ftco-animate">
+        <div class="media block-6 services mb-md-0 mb-4">
+          <div class="icon bg-color-4 d-flex justify-content-center align-items-center mb-2">
+            <span class="flaticon-customer-service"></span>
+          </div>
+          <div class="media-body">
+            <h3 class="heading">Support</h3>
+            <span>24/7 Support</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ftco-section ftco-category ftco-no-pt">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-6 order-md-last align-items-stretch d-flex">
+            <div class="category-wrap-2 ftco-animate img align-self-stretch d-flex" style="background-image: url({% static 'images/categoryy.jpg' %});">
+              <div class="text text-center">
+                <h2>SONIPS Communications</h2>
+                <p>Combining quality and reliability in one</p>
+                <p><a href="#" class="btn btn-primary">Shop now</a></p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end" style="background-image: url({% static 'images/category-1.jpg' %});">
+              <div class="text px-3 py-1">
+                <h2 class="mb-0"><a href="#">Smart Phones</a></h2>
+              </div>
+            </div>
+            <div class="category-wrap ftco-animate img d-flex align-items-end" style="background-image: url({% static 'images/category-2.jpg' %});">
+              <div class="text px-3 py-1">
+                <h2 class="mb-0"><a href="#">Tablets &amp; Laptops</a></h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end" style="background-image: url({% static 'images/category-3.jpg' %});">
+          <div class="text px-3 py-1">
+            <h2 class="mb-0"><a href="#">Gadgets &amp; Accessories</a></h2>
+          </div>
+        </div>
+        <div class="category-wrap ftco-animate img d-flex align-items-end" style="background-image: url({% static 'images/category-4.jpg' %});">
+          <div class="text px-3 py-1">
+            <h2 class="mb-0"><a href="#">Audio Devices</a></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% comment %} <section class="ftco-section">
+  <div class="container">
+    <div class="row justify-content-center mb-3 pb-3">
+      <div class="col-md-12 heading-section text-center ftco-animate">
+        <span class="subheading">Featured Products</span>
+        <h2 class="mb-4">Our Products</h2>
+        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      {% if products %}
+      {% for product in products %}
+      <div class="col-md-6 col-lg-3 ftco-animate">
+        <div class="product">
+          <a href="{% url 'product-details' product.id %}" class="img-prod"><img class="img-fluid" src="{{ product.photo.url }}" alt="Colorlib Template">
+            <div class="overlay"></div>
+          </a>
+          <div class="text py-3 pb-4 px-3 text-center">
+            <h3><a href="{% url 'product-details' product.id %}">{{ product.name }}</a></h3>
+            <div class="d-flex">
+              <div class="pricing">
+                <p class="price"><span class="price-sale">${{ product.price }}</span></p>
+              </div>
+            </div>
+            <div class="bottom-area d-flex px-3">
+              <div class="m-auto d-flex">
+                <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                  <span><i class="ion-ios-menu"></i></span>
+                </a>
+                <a href="{% url 'cart' %}" class="buy-now d-flex justify-content-center align-items-center mx-1">
+                  <span><i class="ion-ios-cart"></i></span>
+                </a>
+                <a href="#" class="heart d-flex justify-content-center align-items-center ">
+                  <span><i class="ion-ios-heart"></i></span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <h2 style="margin: auto">Sorry! There are no Products Available!</h2>
+      {% endif %}
+    </div>
+  </div>
+</section> {% endcomment %}
+
+<hr>
+
+<section class="ftco-section ftco-partner">
+  <div class="container">
+    <h2 class="section-heading text-center">Our Trusted Partners</h2>
+    <div class="row overflow-hidden">
+      <div class="col-12">
+        <div class="partner-carousel owl-carousel">
+          <div class="partner-item ftco-animate">
+            <a href="#"><img src="{% static 'images/partner-1.png' %}" class="img-fluid" alt="Partner 1"></a>
+          </div>
+          <div class="partner-item ftco-animate">
+            <a href="#"><img src="{% static 'images/partner-2.png' %}" class="img-fluid" alt="Partner 2"></a>
+          </div>
+          <div class="partner-item ftco-animate">
+            <a href="#"><img src="{% static 'images/partner-3.png' %}" class="img-fluid" alt="Partner 3"></a>
+          </div>
+          <div class="partner-item ftco-animate">
+            <a href="#"><img src="{% static 'images/partner-4.png' %}" class="img-fluid" alt="Partner 4"></a>
+          </div>
+          <div class="partner-item ftco-animate">
+            <a href="#"><img src="{% static 'images/partner-6.png' %}" class="img-fluid" alt="Partner 6"></a>
+          </div>
+          <div class="partner-item ftco-animate">
+            <a href="#"><img src="{% static 'images/partner-7.png' %}" class="img-fluid" alt="Partner 7"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ftco-section ftco-no-pt ftco-no-pb py-5 bg-light">
+  <div class="container py-4">
+    <div class="row d-flex justify-content-center py-5">
+      <div class="col-md-6">
+        <h2 style="font-size: 22px;" class="mb-0">Subscribe to our Newsletter</h2>
+        <span>Get email updates about our latest shops and special offers</span>
+      </div>
+      <div class="col-md-6 d-flex align-items-center">
+        <form class="subscribe-form" method="POST" action="/subscribe">
+          {% csrf_token %}
+          <div class="form-group d-flex">
+            <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
+            <input type="submit" value="Subscribe" class="submit px-3">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <!-- header files -->
+  {% include 'base/head.html' %}
+  <!-- header files -->
+  <body class="goto-here">
+
+		<!-- header and nav start-->
+    {% include 'base/navbarr.html' %}
+    <!-- END nav -->
+
+    {% block content %}
+
+    {% endblock %}
+
+    <!-- footer -->
+    {% include 'base/footer.html' %}
+    <!-- footer -->
+
+
+
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+
+  <!-- js files -->
+  {% include 'base/js.html' %}
+  <!-- js files -->
+
+  <script>
+    $(document).ready(function() {
+      $('.partner-carousel').owlCarousel({
+        loop: true,
+        margin: 30,
+        nav: false,
+        dots: false,
+        autoplay: true,
+        autoplayTimeout: 3000,
+        autoplayHoverPause: true,
+        responsive: {
+          0: {
+            items: 1
+          },
+          576: {
+            items: 2
+          },
+          768: {
+            items: 3
+          },
+          992: {
+            items: 4
+          }
+        },
+        onInitialized: startSlideTransition
+      });
+  
+      function startSlideTransition() {
+        $('.partner-carousel').addClass('smooth-transition');
+        setInterval(function() {
+          $('.partner-carousel').trigger('next.owl.carousel');
+        }, 3000); // Adjust the interval duration as desired
+      }
+    });
+  </script>
+  
+  </body>
+</html>
