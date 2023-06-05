@@ -75,9 +75,17 @@
         <li class="nav-item cta cta-colored">
           <a href="#" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a>
         </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">Signin</a>
+        {% if request.user.is_authenticated %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class='fas fa-user-circle' style='font-size:20px'></i></a>
+          <div class="dropdown-menu" aria-labelledby="dropdown04">
+            <a href="{% url 'index' %}" class="dropdown-item">Profile</a>
+            <a href="{% url 'signout' %}" class="dropdown-item">Signout</a>
+          </div>
         </li>
+          {% else %}
+          <li class="nav-item"><a href="{% url 'login' %}" class="nav-link">Login</a></li>
+          {% endif %}
       </ul>
     </div>
   </div>

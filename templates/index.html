@@ -9,6 +9,13 @@
     }
   }
   </style>
+  {% if messages %}
+            <div class="container">
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
 <section id="home-section" class="hero">
   <div class="home-slider owl-carousel" style="overflow: auto;">
     <div class="slider-item" style="background-image: url({% static 'images/bg_1.jpg' %});">

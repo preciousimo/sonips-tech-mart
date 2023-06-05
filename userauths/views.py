@@ -15,13 +15,15 @@ def signup(request):
             messages.success(request, f"New Account Created: {username}")
             new_user = authenticate(username=form.cleaned_data['email'], password=form.cleaned_data['password1'])
             login(request, new_user)
-            return redirect('/')
+            return redirect('index')
+        
     else:
         form =  UserRegisterForm()
+
     context = {'form': form}
     return render(request, "userauths/signup.html", context)
 
-def login(request):
+def signin(request):
     if request.user.is_authenticated:
         messages.warning(request, "You are already logged in.")
         return redirect('/')
@@ -39,9 +41,16 @@ def login(request):
                 messages.success(request, f"Welcome {email}. You are now logged in.")
                 return redirect('/')
             else:
-                messages.warning(request, "User does not exist, create an account.")
+                messages.warning(request, "Incorrect password.")
                 
-        except:
-            messages.warning(request, f'User with {email} does not exist')
+        except User.DoesNotExist:
+            messages.warning(request, f'A user with the email {email} does not exist. Create an account.')
 
     return render(request, 'userauths/login.html')
+
+def signout(request):
+
+    logout(request)
+    messages.info(request, "You have successfully logged out.") 
+
+    return redirect('login')

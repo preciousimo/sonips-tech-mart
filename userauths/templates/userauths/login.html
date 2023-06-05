@@ -6,9 +6,17 @@
 
 <section class="ftco-section contact-section bg-light">
     <div class="container">
+        {% if messages %}
+        <div class="container">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
         <div class="row block-9">
             <div class="col-md-6 order-md-last d-flex">
-                <form class="bg-white p-5 contact-form" action="" method="POST">
+                <form class="bg-white p-5 contact-form" action="{% url 'login' %}" method="POST">
                     {% csrf_token %}
 
                     <div class="form-group">
@@ -19,7 +27,7 @@
                     </div>
                     <div class="form-group">
                         Forgot password? Reset <a href="">here</a>.<br>
-                        Don't have any account? Create one <a href="">here</a>.
+                        Don't have any account? Create one <a href="{% url 'signup' %}">here</a>.
                         <input type="submit" value="Sign In" class="btn btn-primary py-3 px-5">
                     </div>
 
