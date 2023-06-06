@@ -31,13 +31,15 @@
             <div class="row justify-content-center">
                 <div class="col-md-10 mb-5 text-center">
                     <ul class="product-category">
-                        <li><a href="#" class="active">All</a></li>
-                        <li><a href="#">Category 1</a></li>
-                        <li><a href="#">Category 2</a></li>
-                        <li><a href="#">Category 3</a></li>
-                        <li><a href="#">Category 4</a></li>
+                        <li><a href="{% url 'products' %}" {% if not active_category %}class="active"{% endif %}>All</a></li>
+                        {% for category in categories %}
+                        <li><a href="{% url 'products' %}?category={{ category.id }}"
+                               {% if active_category and active_category.id == category.id %}class="active"{% endif %}>
+                            {{ category.title }}
+                        </a></li>
+                        {% endfor %}
                     </ul>
-                </div>
+                </div>                
             </div>
             <div class="row">
                 {% if products %}
