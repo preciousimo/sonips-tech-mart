@@ -8,6 +8,35 @@
       margin-top: 20px;
     }
   }
+  .price-old {
+    font-size: 0.8em;
+    text-decoration: line-through;
+    color: #999;
+  }  
+  .discount-tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: green;
+    color: white;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    z-index: 1;
+  }
+  
+  .out-of-stock {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    z-index: 1;
+  }
+  
   </style>
   {% if messages %}
             <div class="container">
@@ -161,7 +190,7 @@
   </div>
 </section>
 
-{% comment %} <section class="ftco-section">
+<section class="ftco-section">
   <div class="container">
     <div class="row justify-content-center mb-3 pb-3">
       <div class="col-md-12 heading-section text-center ftco-animate">
@@ -174,25 +203,44 @@
   <div class="container">
     <div class="row">
       {% if products %}
-      {% for product in products %}
+      {% for p in products %}
       <div class="col-md-6 col-lg-3 ftco-animate">
         <div class="product">
-          <a href="{% url 'product-details' product.id %}" class="img-prod"><img class="img-fluid" src="{{ product.photo.url }}" alt="Colorlib Template">
+          {% if p.get_percentage %}
+            <div class="discount-tag">{{ p.get_percentage }}% Off</div>
+          {% endif %}
+          {% if not p.in_stock %}
+            <div class="out-of-stock">Out of Stock</div>
+          {% endif %}
+          <a href="" class="img-prod"><img class="img-fluid" src="{{ p.image.url }}" alt="Colorlib Template">
             <div class="overlay"></div>
           </a>
           <div class="text py-3 pb-4 px-3 text-center">
-            <h3><a href="{% url 'product-details' product.id %}">{{ product.name }}</a></h3>
+            <h3><a href="">{{ p.title }}</a></h3>
             <div class="d-flex">
               <div class="pricing">
-                <p class="price"><span class="price-sale">${{ product.price }}</span></p>
+                <p class="price">
+                  <span class="price-sale">₦{{ p.price }}</span>
+                </p>
+                <p class="price">
+                  <span class="price-old">₦{{ p.old_price }}</span>
+                </p>
               </div>
             </div>
+            {% comment %} <div class="rating mb-2">
+              {% for i in range(p.rating) %}
+                <span class="fa fa-star checked">&#9733;</span>
+              {% endfor %}
+              {% for i in range(5 - p.rating) %}
+                <span class="fa fa-star">&#9734;</span>
+              {% endfor %}
+            </div>             {% endcomment %}
             <div class="bottom-area d-flex px-3">
               <div class="m-auto d-flex">
                 <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
                   <span><i class="ion-ios-menu"></i></span>
                 </a>
-                <a href="{% url 'cart' %}" class="buy-now d-flex justify-content-center align-items-center mx-1">
+                <a href="" class="buy-now d-flex justify-content-center align-items-center mx-1">
                   <span><i class="ion-ios-cart"></i></span>
                 </a>
                 <a href="#" class="heart d-flex justify-content-center align-items-center ">
@@ -209,7 +257,7 @@
       {% endif %}
     </div>
   </div>
-</section> {% endcomment %}
+</section>
 
 <hr>
 

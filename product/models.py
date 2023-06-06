@@ -60,7 +60,7 @@ class Product(models.Model):
             return 'No Image Found'
     
     def get_percentage(self):
-        new_price = (self.price / self.old_price) * 100
+        new_price = ((self.old_price - self.price) / self.old_price) * 100
         return int(new_price)
     
 class ProductImages(models.Model):
