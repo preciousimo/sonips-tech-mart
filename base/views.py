@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from product.models import Product, Category, CartOrder, CartOrderItems, ProductImages, ProductReview, Wishlist, Address
+from product.models import Product, Category
 
 def index(request):
     products = Product.objects.all()
