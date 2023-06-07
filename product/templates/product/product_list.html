@@ -7,9 +7,9 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-10 mb-5 text-center">
-                    <form action="" method="GET" class="search-form">
+                    <form action="{% url 'search' %}" method="GET" class="search-form">
                         <div class="form-group d-flex">
-                            <input type="text" name="query" class="form-control" placeholder="Search">
+                            <input type="text" name="q" class="form-control" placeholder="Search">
                             <button type="submit" class="btn btn-primary">Search</button>
                         </div>
                     </form>

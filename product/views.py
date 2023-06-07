@@ -56,3 +56,14 @@ def product_detail(request, pid):
     }
 
     return render(request, "product/product_detail.html", context)
+
+def search_view(request):
+    query = request.GET.get("q")
+
+    products = Product.objects.filter(title__icontains=query).order_by("date")
+    context = {
+        "products":products,
+        "query":query,
+    }
+
+    return render(request, "product/product_list.html", context)
