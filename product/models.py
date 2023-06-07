@@ -38,11 +38,14 @@ class Product(models.Model):
     title = models.CharField(max_length=100, default="Product name")
     image = models.ImageField(upload_to="products", default="product.jpg")
     description = models.TextField(null=True, blank=True, default="This is the product")
-    price = models.DecimalField(max_digits=10, decimal_places=2, default="1.99")
-    old_price = models.DecimalField(max_digits=10, decimal_places=2, default="2.99")
+    price = models.DecimalField(max_digits=10, decimal_places=0, default="1")
+    old_price = models.DecimalField(max_digits=10, decimal_places=0, default="2")
     specifications = models.TextField(null=True, blank=True)
     in_stock = models.BooleanField(default=True)
     sku = ShortUUIDField(unique=True, length=4, max_length=10, prefix="sku", alphabet="1234567890")
+    # shipping_on_time = models.CharField(max_length=100, default="7")
+    # days_return = models.CharField(max_length=100, default="7")
+    # warranty_period = models.CharField(max_length=100, default="1")
     date = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(null=True, blank=True)
 
@@ -64,7 +67,7 @@ class Product(models.Model):
         return int(new_price)
     
 class ProductImages(models.Model):
-    product = models.ForeignKey(Product, related_name="p_image", on_delete=models.SET_NULL, null=True)
+    product = models.ForeignKey(Product, related_name="p_images", on_delete=models.SET_NULL, null=True)
     image = models.ImageField(upload_to='product_images', default="avatar.png", null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
 

@@ -1,0 +1,234 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .price-wrapper {
+        display: flex;
+        align-items: center;
+    }
+    
+    .price-container {
+        display: flex;
+        align-items: center;
+        margin-right: 10px;
+    }
+    
+    .old-price {
+        font-size: 18px;
+        text-decoration: line-through;
+        color: #888;
+        margin-right: 5px;
+    }
+    
+    .current-price {
+        font-size: 40px;
+        font-weight: bold;
+        color: #000;
+    }
+    
+    .small-image {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    .delivery-section {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+    
+    .delivery-section h4,
+    .warranty-section h4 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+    
+    .delivery-section p,
+    .warranty-section p {
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+    
+    .delivery-section .address {
+        display: flex;
+        align-items: center;
+    }
+    
+    .delivery-section .address i {
+        margin-right: 5px;
+    }
+    
+    @media (max-width: 767px) {
+        .product-details {
+            margin-top: 30px;
+        }
+        
+        .delivery-section,
+        .warranty-section {
+            text-align: center;
+        }
+        
+        .delivery-section .address {
+            justify-content: center;
+        }
+    }
+</style>
+
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 mb-5 ftco-animate">
+                <a href="{{ product.image.url }}" class="image-popup">
+                    <img src="{{ product.image.url }}" class="img-fluid" alt="Colorlib Template">
+                </a>
+            </div>
+            <div class="col-lg-7 product-details pl-md-5 ftco-animate">
+                <h2>{{ product.title }}</h2>
+                <div class="rating d-flex align-items-center">
+                    <div class="rating-stars">
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <span class="rating-count ml-2">({{ product.num_ratings }} ratings)</span>
+                </div>
+                <div class="price-wrapper">
+                    <div class="price-container">
+                        <p class="current-price">₦{{ product.price }}</p>&nbsp;&nbsp;
+                        <p class="old-price">₦{{ product.old_price }}</p>
+                    </div>
+                </div>
+                <p>{{ product.description }}</p> <!-- Added product description -->
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="quantity">Quantity</label>
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <button type="button" class="quantity-change-btn btn" data-action="minus">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </span>
+                                <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="100">
+                                <span class="input-group-btn">
+                                    <button type="button" class="quantity-change-btn btn" data-action="plus">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="text-center"><a href="#" class="btn btn-primary py-3 px-5">Add to Cart</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row warranty-section">
+            <div class="col-md-12 text-center">
+                <h4>Return &amp; Warranty</h4>
+                <p>Return: 10 Days Return</p>
+                <p>Warranty: 1 Month Warranty</p>
+            </div>
+        </div>
+        <div class="row mt-4">
+            {% for p in p_image %}
+            <div class="col-4">
+                <a href="{{ p.image.url }}" class="image-popup">
+                    <img src="{{ p.image.url }}" class="img-fluid small-image" alt="Product Image">
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center mb-3 pb-3">
+            <div class="col-md-12 heading-section text-center ftco-animate">
+                <span class="subheading">Products</span>
+                <h2 class="mb-4">Related Products</h2>
+                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
+            </div>
+        </div>
+        <div class="row">
+            {% for rel_product in products %}
+            <div class="col-md-6 col-lg-3 ftco-animate">
+                <div class="product">
+                    <a href="{% url 'product-detail' p.pid %}" class="img-prod">
+                        <img class="img-fluid" src="{{ rel_product.image.url }}" alt="Product Image">
+                        <span class="status">{{ p.get_percentage }}%</span>
+                        <div class="overlay"></div>
+                    </a>
+                    <div class="text py-3 pb-4 px-3 text-center">
+                        <h3><a href="{% url 'product-detail' p.pid %}">{{ rel_product.title }}</a></h3>
+                        <div class="d-flex">
+                            <div class="pricing">
+                                <p class="price">
+                                    <span class="mr-2 price-dc">₦{{ rel_product.old_price }}</span>
+                                    <span class="price-sale">₦{{ rel_product.price }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="bottom-area d-flex px-3">
+                            <div class="m-auto d-flex">
+                                <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                                    <span><i class="fa fa-shopping-cart"></i></span>
+                                </a>
+                                <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
+                                    <span><i class="fa fa-shopping-bag"></i></span>
+                                </a>
+                                <a href="#" class="heart d-flex justify-content-center align-items-center">
+                                    <span><i class="fa fa-heart"></i></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section ftco-no-pt ftco-no-pb py-5 bg-light">
+    <div class="container py-4">
+        <div class="row d-flex justify-content-center py-5">
+            <div class="col-md-6">
+                <h2 style="font-size: 22px;" class="mb-0">Subscribe to our Newsletter</h2>
+                <span>Get email updates about our latest shops and special offers</span>
+            </div>
+            <div class="col-md-6 d-flex align-items-center">
+                <form action="#" class="subscribe-form">
+                    <div class="form-group d-flex">
+                        <input type="text" class="form-control" placeholder="Enter email address">
+                        <input type="submit" value="Subscribe" class="submit px-3">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    var minusButton = document.querySelector('.quantity-change-btn[data-action="minus"]');
+    var plusButton = document.querySelector('.quantity-change-btn[data-action="plus"]');
+    var quantityInput = document.getElementById('quantity');
+
+    minusButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        var quantity = parseInt(quantityInput.value);
+        if (quantity > 1) {
+            quantityInput.value = quantity - 1;
+        }
+    });
+
+    plusButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        var quantity = parseInt(quantityInput.value);
+        quantityInput.value = quantity + 1;
+    });
+</script>
+
+{% endblock %}
