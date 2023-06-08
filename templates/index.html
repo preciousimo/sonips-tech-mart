@@ -183,11 +183,11 @@
           {% if not p.in_stock %}
             <div class="out-of-stock">Out of Stock</div>
           {% endif %}
-          <a href="" class="img-prod"><img class="img-fluid" src="{{ p.image.url }}" alt="Colorlib Template">
+          <a href="{% url 'product-detail' p.pid %}" class="img-prod"><img class="img-fluid" src="{{ p.image.url }}" alt="Colorlib Template">
             <div class="overlay"></div>
           </a>
           <div class="text py-3 pb-4 px-3 text-center">
-            <h3><a href="">{{ p.title }}</a></h3>
+            <h3><a href="{% url 'product-detail' p.pid %}">{{ p.title }}</a></h3>
             <div class="d-flex">
               <div class="pricing">
                 <p class="price">

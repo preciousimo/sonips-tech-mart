@@ -55,8 +55,8 @@
           <div class="dropdown-menu" aria-labelledby="dropdown04">
             <a class="dropdown-item" href="{% url 'product_list' %}">Shop</a>
             <a class="dropdown-item" href="#">Wishlist</a>
-            <a class="dropdown-item" href="#">Cart</a>
-            <a class="dropdown-item" href="#">Checkout</a>
+            <a class="dropdown-item" href="{% url 'cart' %}">Cart</a>
+            <a class="dropdown-item" href="{% url 'cart' %}">Checkout</a>
           </div>
         </li>
         <li class="nav-item">
@@ -73,11 +73,12 @@
 
       <ul class="navbar-nav">
         <li class="nav-item cta cta-colored">
-          <a href="#" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a>
+          <a href="{% url 'cart' %}" class="nav-link cart-items-count"><span class="icon-shopping_cart"></span>[{{ request.session.cart_data_obj|length }}]</a>
         </li>
         {% if request.user.is_authenticated %}
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class'fas fa-user-circle' style='font-size:20px'></i></a>
+          <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class='fas fa-user-circle' style='font-size:20px'></i></a>
+
           <div class="dropdown-menu" aria-labelledby="dropdown04">
             <a href="{% url 'index' %}" class="dropdown-item">Profile</a>
             <a href="{% url 'signout' %}" class="dropdown-item">Signout</a>

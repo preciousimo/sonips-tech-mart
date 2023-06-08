@@ -37,15 +37,15 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='item')
     title = models.CharField(max_length=100, default="Product name")
     image = models.ImageField(upload_to="products", default="product.jpg")
-    description = models.TextField(null=True, blank=True, default="This is the product")
-    price = models.DecimalField(max_digits=10, decimal_places=0, default="1")
-    old_price = models.DecimalField(max_digits=10, decimal_places=0, default="2")
+    description = models.TextField(null=True, blank=True, default="This is a product description")
+    price = models.DecimalField(max_digits=10, decimal_places=2, default="1.99")
+    old_price = models.DecimalField(max_digits=10, decimal_places=2, default="2.99")
     specifications = models.TextField(null=True, blank=True)
     in_stock = models.BooleanField(default=True)
     sku = ShortUUIDField(unique=True, length=4, max_length=10, prefix="sku", alphabet="1234567890")
-    # shipping_on_time = models.CharField(max_length=100, default="7")
-    # days_return = models.CharField(max_length=100, default="7")
-    # warranty_period = models.CharField(max_length=100, default="1")
+    shipping_on_time = models.CharField(max_length=100, default="7")
+    days_return = models.CharField(max_length=100, default="7")
+    warranty_period = models.CharField(max_length=100, default="1")
     date = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(null=True, blank=True)
 
@@ -81,6 +81,14 @@ class CartOrder(models.Model):
         ('online_payment', 'Online Payment'),
     ]
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=100, null=True, blank=True)
+    last_name = models.CharField(max_length=100, null=True, blank=True)
+    email = models.EmailField(max_length=100, null=True, blank=True)
+    country = models.CharField(max_length=100, null=True, blank=True)
+    state = models.CharField(max_length=100, null=True, blank=True)
+    nearest_bus_stop = models.CharField(max_length=100, null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
+    phone_number = models.CharField(max_length=15, null=True, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, default="1.99")
     paid_status = models.BooleanField(default=False)
     payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES, default='pay_on_delivery')
@@ -92,6 +100,10 @@ class CartOrder(models.Model):
 
     def __str__(self):
         return f"Order #{self.pk}"
+    
+    def full_name(self):
+        name = self.first_name + self.last_name
+        return name
     
 class CartOrderItems(models.Model):
     order = models.ForeignKey(CartOrder, on_delete=models.CASCADE, null=True)
@@ -144,11 +156,3 @@ class Wishlist(models.Model):
     def __str__(self):
         return self.product.title
     
-
-class Address(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    address = models.CharField(max_length=100, null=True)
-    status = models.BooleanField(default=False)
-
-    class Meta:
-        verbose_name_plural = 'Address'

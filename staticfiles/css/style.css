@@ -10011,3 +10011,32 @@ textarea.form-control {
   100% {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -136px; } }
+
+    .price-old {
+      font-size: 0.8em;
+      text-decoration: line-through;
+      color: #999;
+    }  
+    .discount-tag {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: green;
+      color: white;
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      z-index: 1;
+    }
+    
+    .out-of-stock {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: red;
+      color: white;
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      z-index: 1;
+    }

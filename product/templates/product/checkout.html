@@ -1,0 +1,266 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="hero-wrap hero-bread" style="background-image: url({% static 'images/bg_1.jpg' %});">
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+          <div class="col-md-9 ftco-animate text-center">
+          	<p class="breadcrumbs"><span class="mr-2"><a href="{% url 'index' %}">Home</a></span> <span>Checkout</span></p>
+            <h1 class="mb-0 bread">Checkout</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="ftco-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-xl-7 ftco-animate">
+						<form class="billing-form" method="POST" action="{% url 'process-order' %}">
+							{% csrf_token %}
+							<h3 class="mb-4 billing-heading">Billing Details</h3>
+	          	<div class="row align-items-end">
+	          		<div class="col-md-6">
+	                <div class="form-group">
+	                	<label for="id_firstname">First Name</label>
+	                  <input type="text" class="form-control" id="id_firstname" name="first_name" placeholder="First Name" required>
+	                </div>
+	              </div>
+	              <div class="col-md-6">
+	                <div class="form-group">
+	                	<label for="id_lastname">Last Name</label>
+	                  <input type="text" class="form-control" id="id_lastname" name="last_name" placeholder="Last Name" required>
+	                </div>
+                </div>
+                <div class="w-100"></div>		            
+		            <div class="col-md-6">
+		            	<div class="form-group">
+		            		<label class="field-label" for="id_country">Country</label>
+		            		<div class="select-wrap">
+		                  <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+		                  <select id="id_country" name="country" class="form-control">
+		                  	<option value="">Nigeria</option>
+		                  </select>
+		                </div>
+		            	</div>
+		            </div>
+		            <div class="col-md-6">
+		            	<div class="form-group">
+		            		<label class="field-label" for="id_state">State/LGA</label>
+		            		<div class="select-wrap">
+		                  <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+		                  <select id="id_state" name="state" class="form-control">
+		                  	<option value="">Lagos State</option>
+		                  	<option value="">Ogun State</option>
+		                  	<option value="">Port Harcourt</option>
+		                  	<option value="">Ibadan</option>
+		                  </select>
+		                </div>
+		            	</div>
+		            </div>
+		            <div class="w-100"></div>
+		            <div class="col-md-6">
+		            	<div class="form-group">
+	                	<label class="field-label" for="id_address">Address</label>
+	                  <input class="form-control" type="text" id="id_address" name="address" placeholder="Address" required>
+	                </div>
+		            </div>
+		            <div class="col-md-6">
+		            	<div class="form-group">
+		            		<label class="field-label" for="id_nearest_bus_stop">Nearest Bus Stop</label>
+	                  <input class="form-control" type="text" id="id_nearest_bus_stop" name="nearest_bus_stop" placeholder="Nearest Bustop" required>
+	                </div>
+		            </div>
+		            <div class="w-100"></div>
+		            <div class="col-md-6">
+	                <div class="form-group">
+	                	<label class="field-label" for="id_phone_number">Phone</label>
+	                  <input class="form-control" type="text" id="id_phone_number" name="phone_number" placeholder="Phone Number" required>
+	                </div>
+	              </div>
+	              <div class="col-md-6">
+	                <div class="form-group">
+	                	<label class="field-label" for="id_email">Email Address</label>
+	                  <input class="form-control" type="email" id="id_email" name="email" placeholder="Email" required>
+	                </div>
+                </div>
+                <div class="w-100"></div>
+                
+	            </div>
+					</div>
+					<div class="col-xl-5">
+	          <div class="row mt-5 pt-3">
+	          	<div class="col-md-12 d-flex mb-5">
+	          		<div class="cart-detail cart-total p-3 p-md-4">
+	          			<h3 class="billing-heading mb-4">Cart Total</h3>
+	          			<p class="d-flex">
+							
+		    						<span>Subtotal</span>
+		    						<span>$20.60</span>
+		    					</p>
+		    					<p class="d-flex">
+		    						<span>Delivery</span>
+		    						<span>$0.00</span>
+		    					</p>
+		    					<p class="d-flex">
+		    						<span>Discount</span>
+		    						<span>$3.00</span>
+		    					</p>
+		    					<hr>
+		    					<p class="d-flex total-price">
+		    						<span>Total</span>
+		    						<span>₦{{ cart_total_amount|floatformat:2 }}</span>
+		    					</p>
+								</div>
+	          	</div>
+	          	<div class="col-md-12">
+	          		<div class="cart-detail p-3 p-md-4">
+	          			<h3 class="billing-heading mb-4">Payment Method</h3>
+									<div class="form-group">
+										<div class="col-md-12">
+											<div class="radio">
+											   <label><input type="radio" name="optradio" class="mr-2"> Pay Online</label>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-md-12">
+											<div class="radio">
+											   <label><input type="radio" name="optradio" class="mr-2"> Pay on Delivery</label>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-md-12">
+											<div class="checkbox">
+											   <label><input type="checkbox" value="" class="mr-2"> I have read and accepted the <a href="" data-toggle="modal" data-target=".bd-example-modal-lg">terms and conditions</a></label>
+											</div>
+										</div>
+									</div>
+									
+									<!-- Large modal -->
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+		<h3>Terms and Conditions</h3>
+
+		<h5>1. Acceptance of Terms and Conditions</h5>
+		<p>By using this website or making a purchase, you agree to the following terms and conditions.</p>
+	
+		<h5>2. Definitions</h5>
+		<p>Throughout this document:</p>
+		<ul>
+			<li><strong>Website</strong> refers to our ecommerce website, sonipstechmart.com.</li>
+			<li><strong>Customer</strong> refers to any person who uses or makes a purchase on the website.</li>
+		</ul>
+	
+		<h5>3. Products and Services</h5>
+		<p>Our website offers a wide range of products, including phones, laptops, accessories, and electronics.</p>
+	
+		<h5>4. Ordering and Purchasing</h5>
+		<p>To place an order, customers must create an account, select desired items, and proceed to checkout. We accept payments via credit cards, and bank transfers.</p>
+	
+		<h5>5. Pricing and Taxes</h5>
+		<p>All prices displayed on our website are in Naira and inclusive of applicable taxes. Shipping fees may apply and will be calculated during checkout.</p>
+	
+		<h5>6. Shipping and Delivery</h5>
+		<p>We offer large range shipping. Delivery times may vary depending on the destination and selected shipping method. Customers are responsible for any customs duties or import taxes.</p>
+	
+		<h5>7. Returns and Refunds</h5>
+		<p>If customers are not satisfied with their purchase, they may return the item within 7 days for a refund or exchange. Certain conditions apply, such as the item being unused and in its original packaging.</p>
+	
+		<h5>8. Intellectual Property</h5>
+		<p>All content, images, logos, and trademarks on the website are the property of sonipstechmart.com and are protected by copyright laws. Any unauthorized use is strictly prohibited.</p>
+	
+		<h5>9. Privacy and Data Protection</h5>
+		<p>We collect and process customer data in accordance with our Privacy Policy. We take appropriate measures to protect customer privacy and ensure data security.</p>
+	
+		<h5>10. User Accounts</h5>
+		<p>Customers are responsible for maintaining the confidentiality of their account information, including passwords. We reserve the right to terminate or suspend accounts if any misuse or violation is detected.</p>
+	
+		<h5>11. User Conduct</h5>
+		<p>Customers must use the website in a lawful and responsible manner. Any form of fraudulent activity, hacking attempts, or abuse of the website is strictly prohibited.</p>
+	
+		<h5>12. Limitation of Liability</h5>
+		<p>We are not liable for any direct, indirect, or consequential damages or losses incurred by customers while using our website or products, except as required by applicable laws.</p>
+	
+		<h5>13. Governing Law and Jurisdiction</h5>
+		<p>These terms and conditions are governed by the laws of the state of Lagos, Nigeria. Any disputes shall be resolved in the appropriate courts within the jurisdiction.</p>
+	
+		<h5>14. Modifications to the Terms and Conditions</h5>
+		<p>We reserve the right to modify or update these terms and conditions at any time. Customers will be notified of any changes via email or by posting a notice on the website.</p>
+	
+		<h5>15. Contact Information</h5>
+		<p>For any inquiries or concerns regarding these terms and conditions, please contact us at support@sonipstechmart.com or call us at +234 80 2301 2385.</p>
+	
+    </div>
+  </div>
+</div>
+									<p><a href="#"class="btn btn-primary py-3 px-4">Place an order</a></p>
+								</div>
+	          	</div>
+	          </div>
+			</form><!-- END -->
+
+          </div> <!-- .col-md-8 -->
+        </div>
+      </div>
+    </section> <!-- .section -->
+
+		<section class="ftco-section ftco-no-pt ftco-no-pb py-5 bg-light">
+      <div class="container py-4">
+        <div class="row d-flex justify-content-center py-5">
+          <div class="col-md-6">
+          	<h2 style="font-size: 22px;" class="mb-0">Subcribe to our Newsletter</h2>
+          	<span>Get e-mail updates about our latest shops and special offers</span>
+          </div>
+          <div class="col-md-6 d-flex align-items-center">
+            <form action="#" class="subscribe-form">
+              <div class="form-group d-flex">
+                <input type="text" class="form-control" placeholder="Enter email address">
+                <input type="submit" value="Subscribe" class="submit px-3">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script>
+      $(document).ready(function(){
+
+      var quantitiy=0;
+         $('.quantity-right-plus').click(function(e){
+
+              // Stop acting like a button
+              e.preventDefault();
+              // Get the field name
+              var quantity = parseInt($('#quantity').val());
+
+              // If is not undefined
+
+                  $('#quantity').val(quantity + 1);
+
+
+                  // Increment
+
+          });
+
+           $('.quantity-left-minus').click(function(e){
+              // Stop acting like a button
+              e.preventDefault();
+              // Get the field name
+              var quantity = parseInt($('#quantity').val());
+
+              // If is not undefined
+
+                  // Increment
+                  if(quantity>0){
+                  $('#quantity').val(quantity - 1);
+                  }
+          });
+
+      });
+    </script>
+{% endblock %}
