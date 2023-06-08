@@ -20,22 +20,22 @@ $("#commentForm").submit(function (e) {
         }
     })
 })
-
+ 
 $(document).ready(function () {
     // Add to cart functionality
     $(".add-to-cart-btn").on("click", function () {
 
-        let this_val = $(this);
-        let index = this_val.attr("data-index");
+        let this_val = $(this)
+        let index = this_val.attr("data-index")
 
-        let quantity = $(".product-quantity-" + index).val();
-        let product_title = $(".product-title-" + index).val();
+        let quantity = $(".product-quantity-" + index).val()
+        let product_title = $(".product-title-" + index).val()
 
-        let product_id = $(".product-id-" + index).val();
-        let product_price = $(".current-product-price-" + index).attr("data-price");
+        let product_id = $(".product-id-" + index).val()
+        let product_price = $(".current-product-price-" + index).text()
 
-        let product_pid = $(".product-pid-" + index).val();
-        let product_image = $(".product-image-" + index).val();
+        let product_pid = $(".product-pid-" + index).val()
+        let product_image = $(".product-image-" + index).val()
 
         console.log("Quantity: ", quantity);
         console.log("Title: ", product_title);
@@ -50,6 +50,7 @@ $(document).ready(function () {
             url: '/products/add-to-cart/',
             data: {
                 'id': product_id,
+                'pid': product_pid,
                 'image': product_image,
                 'qty': quantity,
                 'title': product_title,
@@ -79,10 +80,10 @@ $(document).ready(function () {
                 "id": product_id
             },
             dataType: "json",
-            beforeSend: function () {
+            beforeSend: function(){
                 this_val.hide()
             },
-            success: function (res) {
+            success: function(res){
                 this_val.show()
                 $(".cart-items-count").text(res.totalcartitems)
                 $("#cart-list").html(res.data)
@@ -93,7 +94,7 @@ $(document).ready(function () {
     $(".update-product").on("click", function () {
         let product_id = $(this).attr("data-product")
         let this_val = $(this)
-        let product_quantity = $(".product-qty-" + product_id).val()
+        let product_quantity = $(".product-qty-"+product_id).val()
 
         console.log("Product ID:", product_id);
 
@@ -104,10 +105,10 @@ $(document).ready(function () {
                 "qty": product_quantity,
             },
             dataType: "json",
-            beforeSend: function () {
+            beforeSend: function(){
                 this_val.hide()
             },
-            success: function (res) {
+            success: function(res){
                 this_val.show()
                 $(".cart-items-count").text(res.totalcartitems)
                 $("#cart-list").html(res.data)
@@ -115,7 +116,7 @@ $(document).ready(function () {
         })
     })
 
-    $(document).on("submit", "#contact-form-ajax", function (e) {
+    $(document).on("submit", "#contact-form-ajax", function(e){
         e.preventDefault()
         console.log("Submited...")
 
@@ -141,10 +142,10 @@ $(document).ready(function () {
                 'message': message,
             },
             dataType: 'json',
-            beforeSend: function () {
+            beforeSend: function(){
                 console.log("Sending Data to Server...");
             },
-            success: function (res) {
+            success: function(res){
                 console.log("Sent Data to Server...");
                 $("#contact-form-ajax").hide()
                 $("#message-response").html(res.message)
@@ -153,5 +154,3 @@ $(document).ready(function () {
 
     })
 })
-
-

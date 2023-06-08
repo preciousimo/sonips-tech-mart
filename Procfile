@@ -1,0 +1,1 @@
+web: gunicorn 'sonips_communication.wsgi'
