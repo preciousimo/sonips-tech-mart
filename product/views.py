@@ -9,7 +9,7 @@ from django.template.loader import render_to_string
 from django.contrib import messages
 
 from product.models import Product, Category, ProductImages, CartOrder, CartOrderItems, ProductReview
-from .forms import ProductReviewForm
+from userauths.models import User
 from .forms import ProductReviewForm, BillingForm
 from .pdf import html2pdf
 from io import BytesIO
@@ -164,7 +164,17 @@ def checkout(request):
     if 'cart_data_obj' in request.session:
         for p_id, item in request.session['cart_data_obj'].items():
             cart_total_amount += int(item['qty']) * float(item['price'])
-        return render(request, "product/checkout.html", {"cart_data": request.session['cart_data_obj'], 'totalcartitems': len(request.session['cart_data_obj']), 'cart_total_amount': cart_total_amount})
+
+        country_choices = CartOrder._meta.get_field('country').choices
+        state_choices = CartOrder._meta.get_field('state').choices
+
+        return render(request, "product/checkout.html", {
+            "cart_data": request.session['cart_data_obj'], 
+            'totalcartitems': len(request.session['cart_data_obj']), 
+            'cart_total_amount': cart_total_amount,
+            'country_choices': country_choices,
+            'state_choices': state_choices  
+            })
     else:
         messages.warning(request, "Your cart is empty!")
         return redirect('/products/')
@@ -183,7 +193,9 @@ def process_order(request):
             if form.is_valid():
                 # Save the billing details and create an order
                 billing_data = form.cleaned_data
+                user = request.user
                 order = CartOrder.objects.create(
+                    user_id=user.id, 
                     first_name=billing_data['first_name'],
                     last_name=billing_data['last_name'],
                     email=billing_data['email'],
@@ -237,7 +249,7 @@ def process_order(request):
                 email.send()
 
                 subject_ = 'Notice for an order'
-                message_ = 'Please find notice information for ' + order.name + ' new order.'
+                message_ = 'Please find notice information for ' + order.full_name + ' new order.'
                 from_email_ = order.email
                 to_email_ = settings.EMAIL_HOST_USER
 

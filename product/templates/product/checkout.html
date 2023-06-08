@@ -33,33 +33,19 @@
 	                  <input type="text" class="form-control" id="id_lastname" name="last_name" placeholder="Last Name" required>
 	                </div>
                 </div>
-                <div class="w-100"></div>		            
-		            <div class="col-md-6">
-		            	<div class="form-group">
-		            		<label class="field-label" for="id_country">Country</label>
-		            		<div class="select-wrap">
-		                  <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-		                  <select id="id_country" name="country" class="form-control">
-		                  	<option value="">Nigeria</option>
-		                  </select>
-		                </div>
-		            	</div>
-		            </div>
-		            <div class="col-md-6">
-		            	<div class="form-group">
-		            		<label class="field-label" for="id_state">State/LGA</label>
-		            		<div class="select-wrap">
-		                  <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-		                  <select id="id_state" name="state" class="form-control">
-		                  	<option value="">Lagos State</option>
-		                  	<option value="">Ogun State</option>
-		                  	<option value="">Port Harcourt</option>
-		                  	<option value="">Ibadan</option>
-		                  </select>
-		                </div>
-		            	</div>
-		            </div>
-		            <div class="w-100"></div>
+                <div class="w-100"></div>	
+				<div class="col-md-6">
+	                <div class="form-group">
+	                	<label class="field-label" for="id_country">Country</label>
+						<input class="form-control" type="text" id="id_country" name="country" placeholder="Country" required>
+	                </div>
+	              </div>
+	              <div class="col-md-6">
+	                <div class="form-group">
+	                	<label class="field-label" for="id_state">State</label>
+						<input class="form-control" type="text" id="id_state" name="state" placeholder="State" required>
+	                </div>
+                </div>	            
 		            <div class="col-md-6">
 		            	<div class="form-group">
 	                	<label class="field-label" for="id_address">Address</label>
@@ -198,7 +184,8 @@
     </div>
   </div>
 </div>
-									<p><a href="#"class="btn btn-primary py-3 px-4">Place an order</a></p>
+								<button type="submit" class="theme-btn order-btn">Order Place</button>
+									{% comment %} <p><a href="#"class="btn btn-primary py-3 px-4">Place an order</a></p> {% endcomment %}
 								</div>
 	          	</div>
 	          </div>

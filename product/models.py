@@ -102,11 +102,12 @@ class CartOrder(models.Model):
         return f"Order #{self.pk}"
     
     def full_name(self):
-        name = self.first_name + self.last_name
+        name = f"{self.first_name} {self.last_name}"
         return name
     
 class CartOrderItems(models.Model):
     order = models.ForeignKey(CartOrder, on_delete=models.CASCADE, null=True)
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, null=True)
     invoice_no = models.CharField(max_length=200)
     product_status = models.CharField(max_length=200)
     item = models.CharField(max_length=255, null=True)
