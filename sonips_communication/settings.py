@@ -191,7 +191,7 @@ JET_SIDE_MENU_COMPACT = True
 
 CSRF_TRUSTED_ORIGINS = ['https://sonipstechmart.com','https://www.sonipstechmart.com']
 
-# EMAIL - SMTP SERVER (from google gmail)
+# EMAIL - SMTP SERVER
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = os.getenv('EMAIL_PORT')

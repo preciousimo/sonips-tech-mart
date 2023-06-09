@@ -236,7 +236,7 @@ def process_order(request):
                 invoice_html = html2pdf('product/invoice.html', context)
 
                 subject = 'Invoice for your order'
-                message = 'Please find attached the invoice for your order.'
+                message = 'Please find attached the invoice for your order. This is a no reply mail but you can contact us through support@sonipstechmart.com for any enquiry.'
                 from_email = settings.EMAIL_HOST_USER
                 to_email = order.email
 
@@ -250,8 +250,8 @@ def process_order(request):
 
                 subject_ = 'Notice for an order'
                 message_ = 'Please find notice information for ' + order.full_name + ' new order.'
-                from_email_ = order.email
-                to_email_ = settings.EMAIL_HOST_USER
+                from_email_ = settings.EMAIL_HOST_USER
+                to_email_ = 'preciousimoniakemu@gmail.com'
 
                 notice = EmailMessage(subject_, message_,
                                       from_email_, [to_email_])
