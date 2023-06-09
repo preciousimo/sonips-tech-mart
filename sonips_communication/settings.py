@@ -148,6 +148,16 @@ AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+SECURE_BROWSER_XSS_FILTER = True
+
+SECURE_SSL_REDIRECT = True
+
+# Add the Content-Security-Policy header
+SECURE_CONTENT_SECURITY_POLICY = "upgrade-insecure-requests"
+
+
 # Django Jet Admin
 JET_THEMES = [
     {
