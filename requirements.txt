@@ -12,8 +12,10 @@ cryptography==41.0.1
 cssselect2==0.7.0
 Django==4.2.1
 django-4-jet==1.0.9
+django-ckeditor==6.5.1
 django-jet==1.0.8
 django-jet-4==0.0.1
+django-js-asset==2.0.0
 django-shortuuidfield==0.1.3
 django-storages==1.13.2
 django-taggit==4.0.0
