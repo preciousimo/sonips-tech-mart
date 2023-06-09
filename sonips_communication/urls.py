@@ -9,6 +9,9 @@ urlpatterns = [
     path('', include('base.urls')),
     path('user/', include('userauths.urls')),
     path('products/', include('product.urls')),
+    path('blog/', include('blog.urls')),
+
+    path('ckeditor/', include('ckeditor_uploader.urls')),
 
     # Django JET URLS
     path('jet/', include('jet.urls', 'jet')),

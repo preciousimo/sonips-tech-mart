@@ -37,10 +37,12 @@ INSTALLED_APPS = [
     'storages',
     'whitenoise.runserver_nostatic',
     'taggit',
+    'ckeditor',
 
     'userauths',
     'base',
     'product',
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -206,3 +208,5 @@ EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
 AUTH_USER_MODEL = 'userauths.User'
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
