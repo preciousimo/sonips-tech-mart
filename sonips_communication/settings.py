@@ -152,7 +152,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 
 SECURE_BROWSER_XSS_FILTER = True
 
-# SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = True
 
 # Add the Content-Security-Policy header
 SECURE_CONTENT_SECURITY_POLICY = "upgrade-insecure-requests"
