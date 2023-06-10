@@ -74,14 +74,14 @@
                                             <input type="hidden" class="product-title-{{ p.id }}" value="{{ p.title }}">
 
                                             <a class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                                <span class="cart-btn add add-to-cart-btn" data-index="{{ p.id }}" id="add-to-cart-btn"><i class="fa fa-shopping-cart"></i></span>
-                                            </a>
-                                            <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                                <span><i class="fa fa-heart"></i></span>
-                                            </a>
-                                            <a href="{% url 'product-detail' p.pid %}" class="heart d-flex justify-content-center align-items-center">
-                                                <span><i class="fa fa-eye"></i></span>
-                                            </a>
+                                                <span class="cart-btn add add-to-cart-btn" data-index="{{ p.id }}" id="add-to-cart-btn"><i class="ion-ios-cart"></i></span>
+                                              </a>
+                                              <a href="" class="buy-now d-flex justify-content-center align-items-center mx-1">
+                                                <span><i class="ion-ios-heart"></i></span>
+                                              </a>
+                                              <a href="{% url 'product-detail' p.pid %}" class="heart d-flex justify-content-center align-items-center ">
+                                                <span><i class="ion-ios-eye"></i></span>
+                                              </a>
                                         </div>
                                     </div>
                                 </div>

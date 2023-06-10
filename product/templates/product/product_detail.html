@@ -177,15 +177,15 @@
                         </div>
                         <div class="bottom-area d-flex px-3">
                             <div class="m-auto d-flex">
-                                <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                    <span><i class="fa fa-shopping-cart"></i></span>
-                                </a>
-                                <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                    <span><i class="fa fa-shopping-bag"></i></span>
-                                </a>
-                                <a href="#" class="heart d-flex justify-content-center align-items-center">
-                                    <span><i class="fa fa-heart"></i></span>
-                                </a>
+                                <a class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                                    <span class="cart-btn add add-to-cart-btn" data-index="{{ p.id }}" id="add-to-cart-btn"><i class="ion-ios-cart"></i></span>
+                                  </a>
+                                  <a href="" class="buy-now d-flex justify-content-center align-items-center mx-1">
+                                    <span><i class="ion-ios-heart"></i></span>
+                                  </a>
+                                  <a href="{% url 'product-detail' p.pid %}" class="heart d-flex justify-content-center align-items-center ">
+                                    <span><i class="ion-ios-eye"></i></span>
+                                  </a>
                             </div>
                         </div>
                     </div>
@@ -218,7 +218,7 @@
 <script>
     var minusButton = document.querySelector('.quantity-change-btn[data-action="minus"]');
     var plusButton = document.querySelector('.quantity-change-btn[data-action="plus"]');
-    var quantityInput = document.getElementById('quantity');
+    var quantityInput = document.querySelector('.product-quantity-{{ p.id }}');
 
     minusButton.addEventListener('click', function(e) {
         e.preventDefault();
@@ -234,5 +234,6 @@
         quantityInput.value = quantity + 1;
     });
 </script>
+
 
 {% endblock %}
