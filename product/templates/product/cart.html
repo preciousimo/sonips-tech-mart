@@ -47,7 +47,17 @@
 
 						        <td class="qty">
 						        	<div class="input-group mb-3 item-quantity form-outline">
+										<div class="input-group-prepend">
+											<button class="btn btn-outline-secondary quantity-change-btn" type="button" data-action="minus">
+												<i class="fa fa-minus"></i>
+											</button>
+										</div>
 					             		<input name="quantity" class="quantity input-number form-control product-qty-{{ product_id }}" id="typeNumber" type="number" max="100" value="{{ item.qty }}">
+										 <div class="input-group-append">
+											<button class="btn btn-outline-secondary quantity-change-btn" type="button" data-action="plus">
+												<i class="fa fa-plus"></i>
+											</button>
+										</div>
 					          		</div>
 					          	</td>
 
@@ -127,7 +137,27 @@
         </div>
       </div>
     </section>
-    <script>
+	<script>
+		var minusButton = document.querySelector('.quantity-change-btn[data-action="minus"]');
+		var plusButton = document.querySelector('.quantity-change-btn[data-action="plus"]');
+		var quantityInput = document.querySelector('.product-qty-{{ product_id }}');
+	  
+		minusButton.addEventListener('click', function (e) {
+		  e.preventDefault();
+		  var quantity = parseInt(quantityInput.value);
+		  if (quantity > 1) {
+			quantityInput.value = quantity - 1;
+		  }
+		});
+	  
+		plusButton.addEventListener('click', function (e) {
+		  e.preventDefault();
+		  var quantity = parseInt(quantityInput.value);
+		  quantityInput.value = quantity + 1;
+		});
+	  </script>
+	  
+    {% comment %} <script>
   		$(document).ready(function(){
 
   		var quantitiy=0;
@@ -162,5 +192,5 @@
   		    });
 
   		});
-  	</script>
+  	</script> {% endcomment %}
 {% endblock %}

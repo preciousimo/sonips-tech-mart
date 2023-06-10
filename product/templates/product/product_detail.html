@@ -218,7 +218,7 @@
 <script>
     var minusButton = document.querySelector('.quantity-change-btn[data-action="minus"]');
     var plusButton = document.querySelector('.quantity-change-btn[data-action="plus"]');
-    var quantityInput = document.querySelector('.product-quantity-{{ p.id }}');
+    var quantityInput = document.getElementById('quantity');
 
     minusButton.addEventListener('click', function(e) {
         e.preventDefault();
@@ -234,6 +234,5 @@
         quantityInput.value = quantity + 1;
     });
 </script>
-
 
 {% endblock %}
