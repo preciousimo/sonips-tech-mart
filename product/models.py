@@ -1,4 +1,5 @@
 from django.db import models
+from ckeditor_uploader.fields import RichTextUploadingField
 from shortuuid.django_fields import ShortUUIDField
 from django.utils.html import mark_safe
 from userauths.models import User
@@ -37,10 +38,10 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='item')
     title = models.CharField(max_length=100, default="Product name")
     image = models.ImageField(upload_to="products", default="product.jpg")
-    description = models.TextField(null=True, blank=True, default="This is a product description")
+    description = RichTextUploadingField(null=True, blank=True, default="This is a product description")
     price = models.DecimalField(max_digits=10, decimal_places=2, default="1.99")
     old_price = models.DecimalField(max_digits=10, decimal_places=2, default="2.99")
-    specifications = models.TextField(null=True, blank=True)
+    specifications = RichTextUploadingField(null=True, blank=True)
     in_stock = models.BooleanField(default=True)
     sku = ShortUUIDField(unique=True, length=4, max_length=10, prefix="sku", alphabet="1234567890")
     shipping_on_time = models.CharField(max_length=100, default="7")

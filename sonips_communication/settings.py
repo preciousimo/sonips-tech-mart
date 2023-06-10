@@ -36,7 +36,6 @@ INSTALLED_APPS = [
 
     'storages',
     'whitenoise.runserver_nostatic',
-    'taggit',
     'ckeditor',
 
     'userauths',
