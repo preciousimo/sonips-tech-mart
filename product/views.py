@@ -249,7 +249,7 @@ def process_order(request):
                 email.send()
 
                 subject_ = 'Notice for an order'
-                message_ = 'Please find notice information for ' + order.full_name + ' new order.'
+                message_ = f'Please find notice information for { order.full_name } new order.'
                 from_email_ = settings.EMAIL_HOST_USER
                 to_email_ = 'preciousimoniakemu@gmail.com'
 

@@ -133,6 +133,4 @@ dmypy.json
 
 migrations
 
-static/
-collectstatic/
 media/
