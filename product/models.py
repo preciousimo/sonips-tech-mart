@@ -129,6 +129,16 @@ class CartOrderItems(models.Model):
     def __str__(self):
         return f"{self.qty} x {self.product.title} - {self.price}"
 
+
+class Coupon(models.Model):
+    code = models.CharField(max_length=50, unique=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    active = models.BooleanField(default=True)
+    expiration_date = models.DateField()
+
+    def __str__(self):
+        return self.code
+
  
 class ProductReview(models.Model): 
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)

@@ -8,7 +8,7 @@ from django.core.mail import send_mail, EmailMessage
 from django.template.loader import render_to_string
 from django.contrib import messages
 
-from product.models import Product, Category, ProductImages, CartOrder, CartOrderItems, ProductReview
+from product.models import Product, Category, ProductImages, CartOrder, CartOrderItems, ProductReview, Coupon
 from userauths.models import User
 from .forms import ProductReviewForm, BillingForm
 from .pdf import html2pdf
@@ -83,10 +83,30 @@ def search_view(request):
 
 def cart(request):
     cart_total_amount = 0
+    coupon_discount = 0
+
     if 'cart_data_obj' in request.session:
         for p_id, item in request.session['cart_data_obj'].items():
             cart_total_amount += int(item['qty']) * float(item['price'])
-        return render(request, "product/cart.html", {"cart_data": request.session['cart_data_obj'], 'totalcartitems': len(request.session['cart_data_obj']), 'cart_total_amount': cart_total_amount})
+
+        if request.method == 'POST':
+            coupon_code = request.POST.get('coupon_code')
+            try:
+                coupon = Coupon.objects.get(code=coupon_code, active=True)
+                coupon_discount = coupon.amount
+                messages.success(request, "Coupon applied successfully!")
+            except Coupon.DoesNotExist:
+                messages.error(request, "Invalid coupon code!")
+
+        total_amount = cart_total_amount - coupon_discount
+
+        return render(request, "product/cart.html", {
+            "cart_data": request.session['cart_data_obj'],
+            'totalcartitems': len(request.session['cart_data_obj']),
+            'cart_total_amount': cart_total_amount,
+            'coupon_discount': coupon_discount,
+            'total_amount': total_amount
+        })
     else:
         messages.warning(request, "Your cart is empty!")
         return redirect('/')
@@ -168,17 +188,28 @@ def checkout(request):
         country_choices = CartOrder._meta.get_field('country').choices
         state_choices = CartOrder._meta.get_field('state').choices
 
+        # Get the active coupon, if any
+        active_coupon = Coupon.objects.filter(active=True).first()
+
+        # Calculate the total amount
+        if active_coupon:
+            total_amount = cart_total_amount - active_coupon.amount
+        else:
+            total_amount = cart_total_amount
+
         return render(request, "product/checkout.html", {
             "cart_data": request.session['cart_data_obj'], 
             'totalcartitems': len(request.session['cart_data_obj']), 
             'cart_total_amount': cart_total_amount,
             'country_choices': country_choices,
-            'state_choices': state_choices  
-            })
+            'state_choices': state_choices,
+            'active_coupon': active_coupon,
+            'total_amount': total_amount
+        })
     else:
         messages.warning(request, "Your cart is empty!")
-        return redirect('/products/')
-
+        return redirect('/')
+    
 
 def process_order(request):
     if 'cart_data_obj' in request.session:

@@ -75,19 +75,38 @@
 					  </div>
     			</div>
     		</div>
+
+			{% if messages %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
     		<div class="row justify-content-end">
     			<div class="col-lg-6 mt-5 cart-wrap ftco-animate">
     				<div class="cart-total mb-3">
     					<h3>Coupon Code</h3>
-    					<p>Enter your coupon code if you have one</p>
-  						<form action="#" class="info">
+    					<p>Enter the welcome coupon code WELCOME_TO_SONIPS_MART to get welcome discount</p>
+  						<form action="{% url 'cart' %}" method="POST" class="info">
+							{% csrf_token %}
 	              <div class="form-group">
-	              	<label for="">Coupon code</label>
-	                <input type="text" class="form-control text-left px-3" placeholder="">
+	              	<label for="coupon_code">Coupon code</label>
+	                <input type="text" name="coupon_code" id="coupon_code" class="form-control text-left px-3" placeholder="">
 	              </div>
+				  <button type="submit" class="btn btn-primary py-3 px-4">Apply Coupon</button>
 	            </form>
     				</div>
-    				<p><a href="checkout.html" class="btn btn-primary py-3 px-4">Apply Coupon</a></p>
     			</div>
 
     			<div class="col-lg-6 mt-5 cart-wrap ftco-animate">
@@ -103,12 +122,12 @@
     					</p>
     					<p class="d-flex">
     						<span>Discount</span>
-    						<span>₦3.00</span>
+    						<span>₦{{ coupon_discount|floatformat:2 }}</span>
     					</p>
     					<hr>
     					<p class="d-flex total-price">
     						<span>Total</span>
-    						<span>₦{{ cart_total_amount|floatformat:2 }}</span>
+    						<span>₦{{ total_amount|floatformat:2 }}</span>
     					</p>
     				</div>
 					{% if totalcartitems %}

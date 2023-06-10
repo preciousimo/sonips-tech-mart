@@ -83,7 +83,7 @@
 	          			<p class="d-flex">
 							
 		    						<span>Subtotal</span>
-		    						<span>$20.60</span>
+		    						<span>${{ cart_total_amount|floatformat:2 }}</span>
 		    					</p>
 		    					<p class="d-flex">
 		    						<span>Delivery</span>
@@ -91,12 +91,16 @@
 		    					</p>
 		    					<p class="d-flex">
 		    						<span>Discount</span>
-		    						<span>$3.00</span>
+		    						{% if active_coupon %}
+										<span>${{ active_coupon.amount }}</span>
+									{% else %}
+										<span>$0.00</span>
+									{% endif %}
 		    					</p>
 		    					<hr>
 		    					<p class="d-flex total-price">
 		    						<span>Total</span>
-		    						<span>₦{{ cart_total_amount|floatformat:2 }}</span>
+		    						<span>₦{{ total_amount|floatformat:2 }}</span>
 		    					</p>
 								</div>
 	          	</div>
