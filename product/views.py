@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.core.mail import send_mail, EmailMessage
 from django.template.loader import render_to_string
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from product.models import Product, Category, ProductImages, CartOrder, CartOrderItems, ProductReview, Coupon
 from userauths.models import User
@@ -84,6 +85,7 @@ def search_view(request):
 def cart(request):
     cart_total_amount = 0
     coupon_discount = 0
+    delivery_fee = 1500
 
     if 'cart_data_obj' in request.session:
         for p_id, item in request.session['cart_data_obj'].items():
@@ -98,18 +100,20 @@ def cart(request):
             except Coupon.DoesNotExist:
                 messages.error(request, "Invalid coupon code!")
 
-        total_amount = cart_total_amount - coupon_discount
+        total_amount = cart_total_amount - coupon_discount + delivery_fee
 
         return render(request, "product/cart.html", {
             "cart_data": request.session['cart_data_obj'],
             'totalcartitems': len(request.session['cart_data_obj']),
             'cart_total_amount': cart_total_amount,
             'coupon_discount': coupon_discount,
+            'delivery_fee': delivery_fee,
             'total_amount': total_amount
         })
     else:
         messages.warning(request, "Your cart is empty!")
         return redirect('/')
+
 
 
 def add_to_cart(request):
@@ -178,9 +182,11 @@ def delete_from_cart(request):
         request.session['cart_data_obj']), 'cart_total_amount': cart_total_amount})
     return JsonResponse({"data": context, 'totalcartitems': len(request.session['cart_data_obj'])})
 
-
+@login_required(login_url='login')
 def checkout(request):
     cart_total_amount = 0
+    delivery_fee = 1500  # Add the delivery fee here
+
     if 'cart_data_obj' in request.session:
         for p_id, item in request.session['cart_data_obj'].items():
             cart_total_amount += int(item['qty']) * float(item['price'])
@@ -193,9 +199,9 @@ def checkout(request):
 
         # Calculate the total amount
         if active_coupon:
-            total_amount = cart_total_amount - active_coupon.amount
+            total_amount = cart_total_amount - active_coupon.amount + delivery_fee
         else:
-            total_amount = cart_total_amount
+            total_amount = cart_total_amount + delivery_fee
 
         return render(request, "product/checkout.html", {
             "cart_data": request.session['cart_data_obj'], 
@@ -204,11 +210,13 @@ def checkout(request):
             'country_choices': country_choices,
             'state_choices': state_choices,
             'active_coupon': active_coupon,
+            'delivery_fee': delivery_fee,
             'total_amount': total_amount
         })
     else:
         messages.warning(request, "Your cart is empty!")
         return redirect('/')
+
     
 
 def process_order(request):

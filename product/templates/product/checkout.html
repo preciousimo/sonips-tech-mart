@@ -83,18 +83,18 @@
 	          			<p class="d-flex">
 							
 		    						<span>Subtotal</span>
-		    						<span>${{ cart_total_amount|floatformat:2 }}</span>
+		    						<span>₦{{ cart_total_amount|floatformat:2 }}</span>
 		    					</p>
 		    					<p class="d-flex">
 		    						<span>Delivery</span>
-		    						<span>$0.00</span>
+		    						<span>₦{{ delivery_fee }}</span>
 		    					</p>
 		    					<p class="d-flex">
 		    						<span>Discount</span>
 		    						{% if active_coupon %}
-										<span>${{ active_coupon.amount }}</span>
+										<span>₦{{ active_coupon.amount }}</span>
 									{% else %}
-										<span>$0.00</span>
+										<span>₦0.00</span>
 									{% endif %}
 		    					</p>
 		    					<hr>
@@ -110,21 +110,19 @@
 									<div class="form-group">
 										<div class="col-md-12">
 											<div class="radio">
-											   <label><input type="radio" name="optradio" class="mr-2"> Pay Online</label>
-											</div>
+												<label><input type="radio" name="optradio" class="mr-2" onclick="showPayNowButton()"> Pay Online</label>											</div>
 										</div>
 									</div>
 									<div class="form-group">
 										<div class="col-md-12">
 											<div class="radio">
-											   <label><input type="radio" name="optradio" class="mr-2"> Pay on Delivery</label>
-											</div>
+												<label><input type="radio" name="optradio" class="mr-2" onclick="showPlaceOrderButton()"> Pay on Delivery</label>											</div>
 										</div>
 									</div>
 									<div class="form-group">
 										<div class="col-md-12">
 											<div class="checkbox">
-											   <label><input type="checkbox" value="" class="mr-2"> I have read and accepted the <a href="" data-toggle="modal" data-target=".bd-example-modal-lg">terms and conditions</a></label>
+											   <label><input type="checkbox" value="" class="mr-2" id="termsCheckbox"> I have read and accepted the <a href="" data-toggle="modal" data-target=".bd-example-modal-lg">terms and conditions</a></label>
 											</div>
 										</div>
 									</div>
@@ -188,8 +186,8 @@
     </div>
   </div>
 </div>
-								<button type="submit" class="theme-btn order-btn">Order Place</button>
-									{% comment %} <p><a href="#"class="btn btn-primary py-3 px-4">Place an order</a></p> {% endcomment %}
+<button type="submit" id="payNowButton" class="theme-btn order-btn" style="display: none;" disabled onclick="return checkTermsCheckbox()">Pay Now</button>
+<button type="submit" id="placeOrderButton" class="theme-btn order-btn" style="display: none;" onclick="return checkTermsCheckbox()">Place an order</button>
 								</div>
 	          	</div>
 	          </div>
@@ -218,6 +216,35 @@
         </div>
       </div>
     </section>
+	<script>
+        function showPayNowButton() {
+            var payNowButton = document.getElementById("payNowButton");
+            var placeOrderButton = document.getElementById("placeOrderButton");
+            
+            payNowButton.style.display = "block";
+            placeOrderButton.style.display = "none";
+        }
+
+        function showPlaceOrderButton() {
+            var payNowButton = document.getElementById("payNowButton");
+            var placeOrderButton = document.getElementById("placeOrderButton");
+            
+            payNowButton.style.display = "none";
+            placeOrderButton.style.display = "block";
+        }
+
+		function checkTermsCheckbox() {
+			var termsCheckbox = document.getElementById("termsCheckbox");
+		
+			if (!termsCheckbox.checked) {
+			  alert("Please read and accept the terms and conditions.");
+			  return false; // Prevent form submission
+			}
+		
+			return true; // Allow form submission
+		  }
+    </script>
+
     <script>
       $(document).ready(function(){
 
@@ -254,4 +281,6 @@
 
       });
     </script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 {% endblock %}
