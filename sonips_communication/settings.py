@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'userauths',
     'base',
     'product',
+    'wishlist',
     'blog',
     'about',
     'contact',

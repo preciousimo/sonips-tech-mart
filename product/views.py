@@ -9,7 +9,7 @@ from django.template.loader import render_to_string
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from product.models import Product, Category, ProductImages, CartOrder, CartOrderItems, ProductReview, Coupon
+from product.models import Product, Category, ProductImages, CartOrder, CartOrderItems, ProductReview, Coupon, Wishlist
 from userauths.models import User
 from .forms import ProductReviewForm, BillingForm
 from .pdf import html2pdf

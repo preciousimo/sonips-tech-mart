@@ -1,0 +1,51 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+<div class="hero-wrap hero-bread" style="background-image: url({% static 'images/bg_4.jpg' %});">
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <p class="breadcrumbs"><span class="mr-2"><a href="{% url 'index' %}">Home</a></span> <span>Wishlist</span></p>
+                <h1 class="mb-0 bread">Wishlist</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+  {% if wishlist_items %}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>&nbsp;</th>
+          <th>Product</th>
+          <th>Date Added</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in wishlist_items %}
+          <tr>
+            <td>
+              <div class="media">
+                <img src="{{ item.product.image.url }}" class="mr-3" alt="{{ item.product.title }}" style="max-width: 100px;">
+              </div>
+            </td>
+            <td>
+                <div class="media-body">
+                    <h5 class="mt-0">{{ item.product.title }}</h5>
+                  </div>
+            </td>
+            <td>{{ item.date }}</td>
+            <td>
+              <a href="{% url 'remove-from-wishlist' item.id %}" class="btn btn-danger btn-sm">Remove</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Your wishlist is empty.</p>
+  {% endif %}
+</div>
+{% endblock %}
