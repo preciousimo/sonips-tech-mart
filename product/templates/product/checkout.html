@@ -87,12 +87,12 @@
 		    					</p>
 		    					<p class="d-flex">
 		    						<span>Delivery</span>
-		    						<span>₦{{ delivery_fee }}</span>
+		    						<span>₦{{ delivery_fee|floatformat:2 }}</span>
 		    					</p>
 		    					<p class="d-flex">
 		    						<span>Discount</span>
 		    						{% if active_coupon %}
-										<span>₦{{ active_coupon.amount }}</span>
+										<span>₦{{ active_coupon.amount|floatformat:2 }}</span>
 									{% else %}
 										<span>₦0.00</span>
 									{% endif %}
