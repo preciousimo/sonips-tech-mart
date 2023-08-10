@@ -12,8 +12,8 @@ from django.contrib.auth.decorators import login_required
 from product.models import Product, Category, ProductImages, CartOrder, CartOrderItems, ProductReview, Coupon, Wishlist
 from userauths.models import User
 from .forms import ProductReviewForm, BillingForm
-# from .pdf import html2pdf
-# from io import BytesIO
+from .pdf import html2pdf
+from io import BytesIO
 
 import random
 
@@ -280,11 +280,11 @@ def process_order(request):
                 to_email = order.email
 
                 # Convert invoice_html to a File object
-                # invoice_file = BytesIO(invoice_html)
+                invoice_file = BytesIO(invoice_html)
 
                 email = EmailMessage(subject, message, from_email, [to_email])
-                # email.attach(
-                #     'invoice.pdf', invoice_file.getvalue(), 'application/pdf')
+                email.attach(
+                    'invoice.pdf', invoice_file.getvalue(), 'application/pdf')
                 email.send()
 
                 subject_ = 'Notice for an order'
@@ -294,8 +294,8 @@ def process_order(request):
 
                 notice = EmailMessage(subject_, message_,
                                       from_email_, [to_email_])
-                # notice.attach(
-                #     'invoice.pdf', invoice_file.getvalue(), 'application/pdf')
+                notice.attach(
+                    'invoice.pdf', invoice_file.getvalue(), 'application/pdf')
                 notice.send()
 
                 # Clear the cart data from the session
