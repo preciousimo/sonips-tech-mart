@@ -8,17 +8,18 @@
       margin-top: 20px;
     }
   }
-  </style>
-  {% if messages %}
-            <div class="container">
-              {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-              {% endfor %}
-            </div>
-          {% endif %}
+</style>
+{% if messages %}
+  <div class="container">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+{% endif %}
+
 <section id="home-section" class="hero">
   <div class="home-slider owl-carousel" style="overflow: auto;">
-    <div class="slider-item" style="background-image: url({% static 'images/bg_3.jpg' %});">
+    <div class="slider-item" style="background-image: url(https://o-rayog.s3.eu-north-1.amazonaws.com/b_1.jpg);">
       <div class="overlay"></div>
       <div class="container">
         <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
@@ -26,22 +27,22 @@
           <div class="col-md-12 ftco-animate text-center">
             <h1 class="mb-2"><b>Welcome to SONIPS Tech Mart</b></h1>
             <h2 class="subheading mb-4">Find Your Perfect Device at SONIPS Tech Mart</h2>
-            <p><a href="{% url 'product_list' %}" class="btn btn-primary">View Details</a></p>
+            <p><a href="{% url 'product_list' %}" class="btn btn-primary">Shop Now</a></p>
           </div>
 
         </div>
       </div>
     </div>
 
-    <div class="slider-item" style="background-image: url({% static 'images/bg_2.jpg' %});">
+    <div class="slider-item" style="background-image: url(https://o-rayog.s3.eu-north-1.amazonaws.com/b_2.jpg);">
       <div class="overlay"></div>
       <div class="container">
         <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
 
           <div class="col-sm-12 ftco-animate text-center">
             <h1 class="mb-2"><b>Discover Unbeatable Prices</b></h1>
-            <h2 class="subheading mb-4">Shop the Best Deals on Phones and Gadgets at SONIPS Tech Mart</h2>
-            <p><a href="{% url 'product_list' %}" class="btn btn-primary">View Details</a></p>
+            <h2 class="subheading mb-4">Shop the Best Deals on Phones and Gadgets</h2>
+            <p><a href="{% url 'product_list' %}" class="btn btn-primary">Shop Now</a></p>
           </div>
 
         </div>
@@ -61,7 +62,7 @@
           </div>
           <div class="media-body">
             <h3 class="heading">Free Shipping</h3>
-            <span>On order(s) over ₦50000</span>
+            <span>On order(s) over ₦90,000</span>
           </div>
         </div>
       </div>
@@ -112,7 +113,7 @@
               <div class="text text-center">
                 <h2>SONIPS Tech Mart</h2>
                 <p>Combining quality and reliability in one</p>
-                <p><a href="{% url 'product_list' %}" class="btn btn-primary">Shop now</a></p>
+                <p><a href="{% url 'product_list' %}" class="btn btn-primary">Shop Now</a></p>
               </div>
             </div>
           </div>
@@ -160,62 +161,62 @@
   <div class="container">
     <div class="row">
       {% if products %}
-      {% for p in products %}
-      <div class="col-md-6 col-lg-3 ftco-animate">
-        <div class="product">
-          {% if p.get_percentage %}
-            <div class="discount-tag">{{ p.get_percentage }}% Off</div>
-          {% endif %}
-          {% if not p.in_stock %}
-            <div class="out-of-stock">Out of Stock</div>
-          {% endif %}
-          <a href="{% url 'product-detail' p.pid %}" class="img-prod"><img class="img-fluid" src="{{ p.image.url }}" alt="Colorlib Template">
-            <div class="overlay"></div>
-          </a>
-          <div class="text py-3 pb-4 px-3 text-center">
-            <h3><a href="{% url 'product-detail' p.pid %}">{{ p.title }}</a></h3>
-            <div class="d-flex">
-              <div class="pricing">
-                <p class="price">
-                  <span class="price-sale">₦{{ p.price }}</span>
-                </p>
-                <p class="price">
-                  <span class="price-old">₦{{ p.old_price }}</span>
-                </p>
+          {% for p in products %}
+              <div class="col-md-6 col-lg-3 ftco-animate">
+                  <div class="product">
+                      {% if p.get_percentage %}
+                          <div class="discount-tag">{{ p.get_percentage }}% Off</div>
+                      {% endif %}
+                      {% if not p.in_stock %}
+                          <div class="out-of-stock">Out of Stock</div>
+                      {% endif %}
+                      <a href="{% url 'product-detail' p.pid %}" class="img-prod">
+                          <img class="img-fluid" src="{{ p.image.url }}" alt="Colorlib Template">
+                          <div class="overlay"></div>
+                      </a>
+                      <div class="text py-3 pb-4 px-3 text-center">
+                          <h3><a href="{% url 'product-detail' p.pid %}">{{ p.title }}</a></h3>
+                          <div class="d-flex">
+                              <div class="pricing">
+                                  <p class="price">
+                                      <span>₦</span><span class="price-sale current-product-price-{{ p.id }}">{{ p.price }}</span>
+                                  </p>
+                                  <p class="price">
+                                      <span>₦</span><span class="price-old">{{ p.old_price }}</span>
+                                  </p>
+                              </div>
+                          </div>
+                          <div class="bottom-area d-flex px-3">
+                              <div class="m-auto d-flex">
+                                  <input type="hidden" value="1" class="product-quantity-{{ p.id }}" name="" id="product-quantity">
+                                  <input type="hidden" value="{{ p.pid }}" class="product-pid-{{ p.id }}" >
+                                  <input type="hidden" class="product-image-{{ p.id }}" value="{{ p.image.url }}">
+                                  <input type="hidden" class="product-id-{{ p.id }}" value="{{ p.id }}">
+                                  <input type="hidden" class="product-title-{{ p.id }}" value="{{ p.title }}">
+
+                                  <a class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                                      <span class="cart-btn add add-to-cart-btn" data-index="{{ p.id }}" id="add-to-cart-btn"><i class="ion-ios-cart"></i></span>
+                                    </a>
+                                    <a href="{% url 'add_to_wishlist' p.id %}" class="buy-now d-flex justify-content-center align-items-center mx-1">
+                                      <span><i class="ion-ios-heart"></i></span>
+                                    </a>
+                                    <a href="{% url 'product-detail' p.pid %}" class="heart d-flex justify-content-center align-items-center ">
+                                      <span><i class="ion-ios-eye"></i></span>
+                                    </a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
               </div>
-            </div>
-            {% comment %} <div class="rating mb-2">
-              {% for i in range(p.rating) %}
-                <span class="fa fa-star checked">&#9733;</span>
-              {% endfor %}
-              {% for i in range(5 - p.rating) %}
-                <span class="fa fa-star">&#9734;</span>
-              {% endfor %}
-            </div>             {% endcomment %}
-            <div class="bottom-area d-flex px-3">
-              <div class="m-auto d-flex">
-                <a class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                  <span class="cart-btn add add-to-cart-btn" data-index="{{ p.id }}" id="add-to-cart-btn"><i class="ion-ios-cart"></i></span>
-                </a>
-                <a href="{% url 'add_to_wishlist' p.id %}" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                  <span><i class="ion-ios-heart"></i></span>
-                </a>
-                <a href="{% url 'product-detail' p.pid %}" class="heart d-flex justify-content-center align-items-center ">
-                  <span><i class="ion-ios-eye"></i></span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {% endfor %}
+          {% endfor %}
       {% else %}
-      <h2 style="margin: auto">Sorry! There are no Products Available!</h2>
+          <div class="col">
+              <h2 class="text-center">Sorry! There are no Products Available!</h2>
+          </div>
       {% endif %}
     </div>
   </div>
 </section>
-
 <hr>
 
 <section class="ftco-section ftco-partner">
