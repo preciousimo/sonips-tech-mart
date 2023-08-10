@@ -24,8 +24,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
-    'jet.dashboard',
-    'jet',
+    'jazzmin',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -35,8 +34,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'storages',
-    'whitenoise.runserver_nostatic',
-    'taggit',
+    # 'whitenoise.runserver_nostatic',
+    # 'taggit',
     'ckeditor',
 
     'userauths',
@@ -51,7 +50,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
 
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -133,20 +132,34 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "static/"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+# STATIC_URL = "static/"
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+# STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# aws settings
-AWS_QUERYSTRING_AUTH = False 
+# AWS S3 BUCKET CONFIGURATION (for static files)
+
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 
 AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+
+AWS_QUERYSTRING_AUTH = False 
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+
+AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+
+AWS_LOCATION = 'static'
+STATIC_LOCATION = 'static'
+STATICFILES_LOCATION = 'staticfiles'
+STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
+STATIC_ROOT = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -154,41 +167,50 @@ AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# Django Jet Admin
-JET_THEMES = [
-    {
-        'theme': 'default', # theme folder name
-        'color': 'blue', # color of the theme's button in user menu
-        'title': 'Default' # theme title
-    },
-    {
-        'theme': 'green',
-        'color': '#44b78b',
-        'title': 'Green'
-    },
-    {
-        'theme': 'light-green',
-        'color': '#2faa60',
-        'title': 'Light Green'
-    },
-    {
-        'theme': 'light-violet',
-        'color': '#a464c4',
-        'title': 'Light Violet'
-    },
-    {
-        'theme': 'light-blue',
-        'color': '#5EADDE',
-        'title': 'Light Blue'
-    },
-    {
-        'theme': 'light-gray',
-        'color': '#222',
-        'title': 'Light Gray'
-    },
-]
+# Authentication redirect
+LOGIN_URL = "login"
+LOGOUT_REDIRECT_URL = "login"
 
-JET_SIDE_MENU_COMPACT = True
+
+# Django Jazzmin Admin
+JAZZMIN_SETTINGS = {
+    "site_header": "SONIPS",
+    # "site_brand": "Home of Quality...",
+    # "welcome_sign": "Welcome to SONIPS Admin",
+    "copyright": "SONIPS - All Right Reserved © Copyright 2023",
+}
+
+JAZZMIN_UI_TWEAKS = {
+    # "navbar_small_text": False,
+    # "footer_small_text": False,
+    # "body_small_text": True,
+    # "brand_small_text": False,
+    "brand_colour": "navbar-indigo",
+    "accent": "accent-olive",
+    "navbar": "navbar-indigo navbar-dark",
+    # "no_navbar_border": False,
+    # "navbar_fixed": False,
+    # "layout_boxed": False,
+    # "footer_fixed": False,
+    # "sidebar_fixed": False,
+    "sidebar": "sidebar-dark-indigo",
+    # "sidebar_nav_small_text": False,
+    # "sidebar_disable_expand": False,
+    # "sidebar_nav_child_indent": False,
+    # "sidebar_nav_compact_style": False,
+    # "sidebar_nav_legacy_style": False,
+    # "sidebar_nav_flat_style": False,
+    "theme": "cyborg",
+    "dark_mode_theme": "cyborg",
+    "button_classes": {
+        "primary": "btn-primary",
+        "secondary": "btn-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
+    }
+}
 
 CSRF_TRUSTED_ORIGINS = ['https://sonipstechmart.com','https://www.sonipstechmart.com']
 
@@ -198,8 +220,8 @@ EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = os.getenv('EMAIL_PORT')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-EMAIL_USE_TLS = False
-EMAIL_USE_SSL = True
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 
 AUTH_USER_MODEL = 'userauths.User'
 

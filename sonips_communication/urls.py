@@ -16,9 +16,6 @@ urlpatterns = [
 
     path('ckeditor/', include('ckeditor_uploader.urls')),
 
-    # Django JET URLS
-    path('jet/', include('jet.urls', 'jet')),
-    path('jet/dashboard', include('jet.dashboard.urls', 'jet-dashboard')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
