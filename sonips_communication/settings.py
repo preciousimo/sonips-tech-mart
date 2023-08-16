@@ -212,7 +212,7 @@ JAZZMIN_UI_TWEAKS = {
     }
 }
 
-CSRF_TRUSTED_ORIGINS = ['https://sonipstechmart.com','https://www.sonipstechmart.com']
+CSRF_TRUSTED_ORIGINS = ['https://sonips-communication.fly.dev','https://sonipstechmart.com','https://www.sonipstechmart.com']
 
 # EMAIL - SMTP SERVER
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
