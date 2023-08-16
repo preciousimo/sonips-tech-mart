@@ -58,4 +58,5 @@ tzlocal==5.0.1
 uritools==4.0.1
 urllib3==1.26.16
 webencodings==0.5.1
+whitenoise==6.5.0
 xhtml2pdf==0.2.11
