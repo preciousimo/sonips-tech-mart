@@ -1,0 +1,743 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="hero-wrap hero-bread" style="background-image: url(https://o-rayog.s3.eu-north-1.amazonaws.com/pexels-merlin-lightpainting-10874585.jpg);">
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+          <div class="col-md-9 ftco-animate text-center">
+          	<p class="breadcrumbs"><span class="mr-2"><a href="{% url 'index' %}">Home</a></span> <span>Checkout</span></p>
+            <h1 class="mb-0 bread">Checkout</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="ftco-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-xl-7 ftco-animate">
+						<form class="billing-form" method="POST" action="{% url 'process-order' %}">
+							{% csrf_token %}
+							<h3 class="mb-4 billing-heading">Billing Details</h3>
+	          	<div class="row align-items-end">
+	          		<div class="col-md-6">
+	                <div class="form-group">
+	                	<label for="id_firstname">First Name</label>
+	                  <input type="text" class="form-control" id="id_firstname" name="first_name" placeholder="First Name" required>
+	                </div>
+	              </div>
+	              <div class="col-md-6">
+	                <div class="form-group">
+	                	<label for="id_lastname">Last Name</label>
+	                  <input type="text" class="form-control" id="id_lastname" name="last_name" placeholder="Last Name" required>
+	                </div>
+                </div>
+                <div class="w-100"></div>	
+				<div class="col-md-6">
+	                <div class="form-group">
+	                	<label class="field-label" for="id_country">Country</label>
+						<input class="form-control" type="text" id="id_country" name="country" placeholder="Country" required>
+	                </div>
+	              </div>
+	              <div class="col-md-6">
+	                <div class="form-group">
+	                	<label class="field-label" for="id_state">State</label>
+						<input class="form-control" type="text" id="id_state" name="state" placeholder="State" required>
+	                </div>
+                </div>	            
+		            <div class="col-md-6">
+		            	<div class="form-group">
+	                	<label class="field-label" for="id_address">Address</label>
+	                  <input class="form-control" type="text" id="id_address" name="address" placeholder="Address" required>
+	                </div>
+		            </div>
+		            <div class="col-md-6">
+		            	<div class="form-group">
+		            		<label class="field-label" for="id_nearest_bus_stop">Nearest Bus Stop</label>
+	                  <input class="form-control" type="text" id="id_nearest_bus_stop" name="nearest_bus_stop" placeholder="Nearest Bustop" required>
+	                </div>
+		            </div>
+		            <div class="w-100"></div>
+		            <div class="col-md-6">
+	                <div class="form-group">
+	                	<label class="field-label" for="id_phone_number">Phone</label>
+	                  <input class="form-control" type="text" id="id_phone_number" name="phone_number" placeholder="Phone Number" required>
+	                </div>
+	              </div>
+	              <div class="col-md-6">
+	                <div class="form-group">
+	                	<label class="field-label" for="id_email">Email Address</label>
+	                  <input class="form-control" type="email" id="id_email" name="email" placeholder="Email" required>
+	                </div>
+                </div>
+                <div class="w-100"></div>
+                
+	            </div>
+					</div>
+					<div class="col-xl-5">
+	          <div class="row mt-5 pt-3">
+	          	<div class="col-md-12 d-flex mb-5">
+	          		<div class="cart-detail cart-total p-3 p-md-4">
+	          			<h3 class="billing-heading mb-4">Cart Total</h3>
+	          			<p class="d-flex">
+							
+		    						<span>Subtotal</span>
+		    						<span>₦{{ cart_total_amount|floatformat:2 }}</span>
+		    					</p>
+		    					<p class="d-flex">
+		    						<span>Delivery</span>
+		    						<span>₦{{ delivery_fee|floatformat:2 }}</span>
+		    					</p>
+		    					<p class="d-flex">
+		    						<span>Discount</span>
+		    						{% if active_coupon %}
+										<span>₦{{ active_coupon.amount|floatformat:2 }}</span>
+									{% else %}
+										<span>₦0.00</span>
+									{% endif %}
+		    					</p>
+		    					<hr>
+		    					<p class="d-flex total-price">
+		    						<span>Total</span>
+		    						<span>₦{{ total_amount|floatformat:2 }}</span>
+		    					</p>
+								</div>
+	          	</div>
+	          	<div class="col-md-12">
+	          		<div class="cart-detail p-3 p-md-4">
+	          			<h3 class="billing-heading mb-4">Payment Method</h3>
+						  <div class="form-group">
+							<div class="col-md-12">
+								<div class="radio">
+									<label>
+										<input type="radio" name="payment_method" value="online_payment" class="mr-2" onchange="handlePaymentMethod()" required> Pay Online
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-12">
+								<div class="radio">
+									<label>
+										<input type="radio" name="payment_method" value="pay_on_delivery" class="mr-2" onchange="handlePaymentMethod()" required> Pay on Delivery
+									</label>
+								</div>
+							</div>
+						</div>
+						
+									<div class="form-group">
+										<div class="col-md-12">
+											<div class="checkbox">
+											   <label><input type="checkbox" value="" class="mr-2" id="termsCheckbox"> I have read and accepted the <a href="" data-toggle="modal" data-target=".bd-example-modal-lg">terms and conditions</a></label>
+											</div>
+										</div>
+									</div>
+									
+									<!-- Large modal -->
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+		<h3>Terms and Conditions</h3>
+
+		<h5>1. Acceptance of Terms and Conditions</h5>
+		<p>By using this website or making a purchase, you agree to the following terms and conditions.</p>
+	
+		<h5>2. Definitions</h5>
+		<p>Throughout this document:</p>
+		<ul>
+			<li><strong>Website</strong> refers to our ecommerce website, sonipstechmart.com.</li>
+			<li><strong>Customer</strong> refers to any person who uses or makes a purchase on the website.</li>
+		</ul>
+	
+		<h5>3. Products and Services</h5>
+		<p>Our website offers a wide range of products, including phones, laptops, accessories, and electronics.</p>
+	
+		<h5>4. Ordering and Purchasing</h5>
+		<p>To place an order, customers must create an account, select desired items, and proceed to checkout. We accept payments via credit cards, and bank transfers.</p>
+	
+		<h5>5. Pricing and Taxes</h5>
+		<p>All prices displayed on our website are in Naira and inclusive of applicable taxes. Shipping fees may apply and will be calculated during checkout.</p>
+	
+		<h5>6. Shipping and Delivery</h5>
+		<p>We offer large range shipping. Delivery times may vary depending on the destination and selected shipping method. Customers are responsible for any customs duties or import taxes.</p>
+	
+		<h5>7. Returns and Refunds</h5>
+		<p>If customers are not satisfied with their purchase, they may return the item within 7 days for a refund or exchange. Certain conditions apply, such as the item being unused and in its original packaging.</p>
+	
+		<h5>8. Intellectual Property</h5>
+		<p>All content, images, logos, and trademarks on the website are the property of sonipstechmart.com and are protected by copyright laws. Any unauthorized use is strictly prohibited.</p>
+	
+		<h5>9. Privacy and Data Protection</h5>
+		<p>We collect and process customer data in accordance with our Privacy Policy. We take appropriate measures to protect customer privacy and ensure data security.</p>
+	
+		<h5>10. User Accounts</h5>
+		<p>Customers are responsible for maintaining the confidentiality of their account information, including passwords. We reserve the right to terminate or suspend accounts if any misuse or violation is detected.</p>
+	
+		<h5>11. User Conduct</h5>
+		<p>Customers must use the website in a lawful and responsible manner. Any form of fraudulent activity, hacking attempts, or abuse of the website is strictly prohibited.</p>
+	
+		<h5>12. Limitation of Liability</h5>
+		<p>We are not liable for any direct, indirect, or consequential damages or losses incurred by customers while using our website or products, except as required by applicable laws.</p>
+	
+		<h5>13. Governing Law and Jurisdiction</h5>
+		<p>These terms and conditions are governed by the laws of the state of Lagos, Nigeria. Any disputes shall be resolved in the appropriate courts within the jurisdiction.</p>
+	
+		<h5>14. Modifications to the Terms and Conditions</h5>
+		<p>We reserve the right to modify or update these terms and conditions at any time. Customers will be notified of any changes via email or by posting a notice on the website.</p>
+	
+		<h5>15. Contact Information</h5>
+		<p>For any inquiries or concerns regarding these terms and conditions, please contact us at support@sonipstechmart.com or call us at +234 80 2301 2385.</p>
+	
+    </div>
+  </div>
+</div>
+<button type="button" id="payNowButton" class="theme-btn order-btn" style="display: none;" onclick="submitForm('payNowButton')">Pay Now</button>
+<button type="button" id="placeOrderButton" class="theme-btn order-btn" style="display: none;" onclick="submitForm('placeOrderButton')">Place an order</button>
+<button type="submit" id="hiddenSubmitButton" style="display: none;"></button>
+
+								</div>
+	          	</div>
+	          </div>
+			</form><!-- END -->
+
+          </div> <!-- .col-md-8 -->
+        </div>
+      </div>
+    </section> <!-- .section -->
+
+		<section class="ftco-section ftco-no-pt ftco-no-pb py-5 bg-light">
+      <div class="container py-4">
+        <div class="row d-flex justify-content-center py-5">
+          <div class="col-md-6">
+          	<h2 style="font-size: 22px;" class="mb-0">Subcribe to our Newsletter</h2>
+          	<span>Get e-mail updates about our latest shops and special offers</span>
+          </div>
+          <div class="col-md-6 d-flex align-items-center">
+            <form action="#" class="subscribe-form">
+              <div class="form-group d-flex">
+                <input type="text" class="form-control" placeholder="Enter email address">
+                <input type="submit" value="Subscribe" class="submit px-3">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+	<script>
+		// Function to handle payment method change
+		function handlePaymentMethod() {
+			var paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
+	
+			// Show or hide buttons based on the selected payment method
+			if (paymentMethod === 'online_payment') {
+				showPayNowButton();
+			} else if (paymentMethod === 'pay_on_delivery') {
+				showPlaceOrderButton();
+			}
+		}
+	
+		// Function to show "Pay Now" button and hide "Place Order" button
+		function showPayNowButton() {
+			showPaymentButton('payNowButton', 'placeOrderButton');
+		}
+	
+		// Function to show "Place Order" button and hide "Pay Now" button
+		function showPlaceOrderButton() {
+			showPaymentButton('placeOrderButton', 'payNowButton');
+		}
+	
+		// Function to show/hide payment buttons
+		function showPaymentButton(buttonToShow, buttonToHide) {
+			document.getElementById(buttonToShow).style.display = 'block';
+			document.getElementById(buttonToHide).style.display = 'none';
+		}
+	
+		// Function to submit the form
+		function submitForm(buttonId) {
+			if (!checkTermsCheckbox()) {
+				// If terms checkbox is not checked, prevent form submission
+				return false;
+			}
+			// Assume the paymentMethod variable directly matches the value attribute of the radio input
+			var paymentMethod = buttonId === 'payNowButton' ? 'online_payment' : 'pay_on_delivery';
+			document.querySelector('input[name="payment_method"][value="' + paymentMethod + '"]').checked = true;
+			document.querySelector('.billing-form').submit();
+		}
+		
+	
+		// Function to check the terms checkbox
+		function checkTermsCheckbox() {
+			var termsCheckbox = document.getElementById("termsCheckbox");
+	
+			if (!termsCheckbox.checked) {
+				alert("Please read and accept the terms and conditions.");
+				return false; // Prevent form submission
+			}
+	
+			return true; // Allow form submission
+		}
+	
+		// Document ready function
+		$(document).ready(function () {
+			var quantitiy = 0;
+	
+			// Quantity increase button click event
+			$('.quantity-right-plus').click(function (e) {
+				e.preventDefault();
+				var quantity = parseInt($('#quantity').val());
+				$('#quantity').val(quantity + 1);
+			});
+	
+			// Quantity decrease button click event
+			$('.quantity-left-minus').click(function (e) {
+				e.preventDefault();
+				var quantity = parseInt($('#quantity').val());
+				if (quantity > 0) {
+					$('#quantity').val(quantity - 1);
+				}
+			});
+		});
+	</script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import logging, random, requests, json
+from io import BytesIO
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail, EmailMessage
+from django.core.validators import RegexValidator
+from django.db.models import Avg, FloatField
+from django.db.models.functions import Cast
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
+from product.models import Product, Category, CartOrder, CartOrderItems, ProductReview, Coupon
+from userauths.models import User
+from .forms import ProductReviewForm, BillingForm
+from .pdf import html2pdf
+
+
+# Configure the logging module
+logger = logging.getLogger(__name__)
+
+
+
+def product_list(request):
+    category_id = request.GET.get('category')
+    categories = Category.objects.exclude(title='Phones')
+    active_category = None
+
+    if category_id:
+        products = Product.objects.filter(category__id=category_id)
+        active_category = Category.objects.get(id=category_id)
+    else:
+        products = list(Product.objects.all())
+        total_products = len(products)
+        num_products = min(total_products, 6)
+        products = random.sample(products, num_products)
+
+    context = {
+        'products': products,
+        'categories': categories,
+        'active_category': active_category,
+    }
+    return render(request, 'product/product_list.html', context)
+
+
+def product_detail(request, pid):
+    product = Product.objects.get(pid=pid)
+
+    products = Product.objects.filter(
+        category=product.category).exclude(pid=pid)
+
+    total_products = len(products)
+    num_products = min(total_products, 4)
+    productss = random.sample(list(products), num_products)
+
+    reviews = ProductReview.objects.filter(product=product).order_by("-date")
+
+    average_rating = ProductReview.objects.filter(product=product).aggregate(
+        rating=Avg(Cast('rating', output_field=FloatField())))
+
+    review_form = ProductReviewForm()
+    p_image = product.p_images.all()
+
+    context = {
+        "p": product,
+        "review_form": review_form,
+        "reviews": reviews,
+        "average_rating": average_rating,
+        "p_image": p_image,
+        "products": productss,
+    }
+
+    return render(request, "product/product_detail.html", context)
+
+
+def search_view(request):
+    query = request.GET.get("q")
+
+    products = Product.objects.filter(title__icontains=query).order_by("date")
+    context = {
+        "products": products,
+        "query": query,
+    }
+
+    return render(request, "product/product_list.html", context)
+
+
+def cart(request):
+    cart_total_amount = 0
+    coupon_discount = 0
+    delivery_fee = 1500
+
+    if 'cart_data_obj' in request.session:
+        cart_data = request.session['cart_data_obj']
+
+        for p_id, item in cart_data.items():
+            cart_total_amount += int(item['qty']) * float(item['price'])
+
+        if request.method == 'POST':
+            coupon_code = request.POST.get('coupon_code')
+            try:
+                coupon = Coupon.objects.get(code=coupon_code, active=True)
+                coupon_discount = coupon.amount
+                messages.success(request, "Coupon applied successfully!")
+            except Coupon.DoesNotExist:
+                messages.error(request, "Invalid coupon code!")
+
+        total_amount = cart_total_amount - coupon_discount + delivery_fee
+
+        # Handle quantity updates
+        if request.method == 'POST':
+            for p_id, item in cart_data.items():
+                quantity_key = f"quantity_{p_id}"
+                quantity = int(request.POST.get(quantity_key, item['qty']))
+                if quantity > 0:
+                    item['qty'] = quantity
+                    item['total'] = float(item['price']) * quantity
+                else:
+                    del cart_data[p_id]
+
+            # Update the session with the modified cart data
+            request.session['cart_data_obj'] = cart_data
+
+        return render(request, "product/cart.html", {
+            "cart_data": cart_data,
+            'totalcartitems': len(cart_data),
+            'cart_total_amount': cart_total_amount,
+            'coupon_discount': coupon_discount,
+            'delivery_fee': delivery_fee,
+            'total_amount': total_amount
+        })
+    else:
+        messages.warning(request, "Your cart is empty!")
+        return redirect('/')
+
+
+
+def add_to_cart(request):
+    cart_product = {}
+
+    cart_product[str(request.GET['id'])] = {
+        'title': request.GET['title'],
+        'qty': request.GET['qty'],
+        'price': request.GET['price'],
+        'image': request.GET['image'],
+        'pid': request.GET['pid'],
+    }
+
+    if 'cart_data_obj' in request.session:
+        if str(request.GET['id']) in request.session['cart_data_obj']:
+            cart_data = request.session['cart_data_obj']
+            cart_data[str(request.GET['id'])]['qty'] = int(
+                cart_product[str(request.GET['id'])]['qty'])
+            cart_data.update(cart_data)
+            request.session['cart_data_obj'] = cart_data
+        else:
+            cart_data = request.session['cart_data_obj']
+            cart_data.update(cart_product)
+            request.session['cart_data_obj'] = cart_data
+
+    else:
+        request.session['cart_data_obj'] = cart_product
+
+    return JsonResponse({"data": request.session['cart_data_obj'], 'totalcartitems': len(request.session['cart_data_obj'])})
+
+
+def update_cart(request):
+    product_id = str(request.GET['id'])
+    product_qty = request.GET['qty']
+
+    if 'cart_data_obj' in request.session:
+        if product_id in request.session['cart_data_obj']:
+            cart_data = request.session['cart_data_obj']
+            cart_data[str(request.GET['id'])]['qty'] = product_qty
+            request.session['cart_data_obj'] = cart_data
+
+    cart_total_amount = 0
+    if 'cart_data_obj' in request.session:
+        for p_id, item in request.session['cart_data_obj'].items():
+            cart_total_amount += int(item['qty']) * float(item['price'])
+
+    context = render_to_string("product/cart-list.html", {"cart_data": request.session['cart_data_obj'], 'totalcartitems': len(
+        request.session['cart_data_obj']), 'cart_total_amount': cart_total_amount})
+    return JsonResponse({"data": context, 'totalcartitems': len(request.session['cart_data_obj'])})
+
+
+def delete_from_cart(request):
+    product_id = str(request.GET['id'])
+    if 'cart_data_obj' in request.session:
+        if product_id in request.session['cart_data_obj']:
+            cart_data = request.session['cart_data_obj']
+            del request.session['cart_data_obj'][product_id]
+            request.session['cart_data_obj'] = cart_data
+
+    cart_total_amount = 0
+    if 'cart_data_obj' in request.session:
+        for p_id, item in request.session['cart_data_obj'].items():
+            cart_total_amount += int(item['qty']) * float(item['price'])
+
+    context = render_to_string("product/cart-list.html", {"cart_data": request.session['cart_data_obj'], 'totalcartitems': len(
+        request.session['cart_data_obj']), 'cart_total_amount': cart_total_amount})
+    return JsonResponse({"data": context, 'totalcartitems': len(request.session['cart_data_obj'])})
+
+@login_required(login_url='login')
+def checkout(request):
+    cart_total_amount = 0
+    delivery_fee = 1500  # Add the delivery fee here
+
+    if 'cart_data_obj' in request.session:
+        for p_id, item in request.session['cart_data_obj'].items():
+            cart_total_amount += int(item['qty']) * float(item['price'])
+
+        country_choices = CartOrder._meta.get_field('country').choices
+        state_choices = CartOrder._meta.get_field('state').choices
+
+        # Get the active coupon, if any
+        active_coupon = Coupon.objects.filter(active=True).first()
+
+        # Calculate the total amount
+        if active_coupon:
+            total_amount = cart_total_amount - active_coupon.amount + delivery_fee
+        else:
+            total_amount = cart_total_amount + delivery_fee
+
+        return render(request, "product/checkout.html", {
+            "cart_data": request.session['cart_data_obj'], 
+            'totalcartitems': len(request.session['cart_data_obj']), 
+            'cart_total_amount': cart_total_amount,
+            'country_choices': country_choices,
+            'state_choices': state_choices,
+            'active_coupon': active_coupon,
+            'delivery_fee': delivery_fee,
+            'total_amount': total_amount
+        })
+    else:
+        messages.warning(request, "Your cart is empty!")
+        return redirect('/')
+
+    
+
+def process_order(request):
+    if 'cart_data_obj' in request.session:
+        cart_data = request.session['cart_data_obj']
+        cart_total_amount = 0
+        for p_id, item in cart_data.items():
+            cart_total_amount += int(item['qty']) * float(item['price'])
+
+        if request.method == 'POST':
+            form = BillingForm(request.POST)
+            if form.is_valid():
+                billing_data = form.cleaned_data
+                user = request.user
+
+                # Create an order without payment confirmation
+                order = CartOrder.objects.create(
+                    user_id=user.id,
+                    first_name=billing_data['first_name'],
+                    last_name=billing_data['last_name'],
+                    email=billing_data['email'],
+                    country=billing_data['country'],
+                    state=billing_data['state'],
+                    nearest_bus_stop=billing_data['nearest_bus_stop'],
+                    address=billing_data['address'],
+                    phone_number=billing_data['phone_number'],
+                    price=cart_total_amount,
+                    payment_method=billing_data['payment_method'],
+                )
+
+                # Save the order items
+                for p_id, item in cart_data.items():
+                    product = Product.objects.get(pid=item['pid'])
+                    CartOrderItems.objects.create(
+                        order=order,
+                        product=product,
+                        invoice_no='INVOICE_NO-' + str(order.id),
+                        item=item['title'],
+                        image=item['image'],
+                        qty=item['qty'],
+                        price=item['price'],
+                        total=float(item['qty']) + float(item['price'])
+                    )
+
+                # If payment method is online payment, initiate payment with Flutterwave
+                if billing_data['payment_method'] == 'online_payment':
+                    flutterwave_secret_key = settings.FLUTTERWAVE_SECRET_KEY
+
+                    header = {
+                        'Authorization': 'Bearer ' + flutterwave_secret_key,
+                    }
+                    
+                    flutterwave_data = {
+                        'tx_ref': f'order-{order.id}-{order.user.id}',
+                        'amount': int(cart_total_amount),
+                        'currency': 'NGN', 
+                        'payment_options': 'card, ussd',
+                        'redirect_url': 'https://f3ef-197-211-58-108.ngrok-free.app/order-confirm',
+                        'customer': {
+                            'email': billing_data['email'],
+                            'phone_number': billing_data['phone_number'],
+                            'name': f"{billing_data['first_name']} {billing_data['last_name']}",
+                        },
+                        'customizations': {
+                            'title': 'SONIPS Tech Mart',
+                            'description': 'Seamless shopping experience',
+                            'logo': 'https://www.logolynx.com/images/logolynx/22/2239ca38f5505fbfce7e55bbc0604386.jpeg',
+                        },
+                    }
+                    
+                    flutterwave_url = "https://api.flutterwave.com/v3/payments"
+                    
+                    try:
+                        response = requests.post(flutterwave_url, json=flutterwave_data, headers=header)
+                        response.raise_for_status()
+
+                        flutterwave_response = response.json()
+                        order.payment_reference = flutterwave_response.get('data', {}).get('reference', '')
+                        order.save()
+                        
+                        # Check if payment status is successful
+                        if flutterwave_response.get('status') == 'success':
+                            # Clear the cart after successful online payment
+                            del request.session['cart_data_obj']
+                            return redirect(flutterwave_response.get('data', {}).get('link', ''))
+                        else:
+                            print("Flutterwave Response:", flutterwave_response)
+                            # Handle unsuccessful payment
+                            # Show a popup error and redirect to the main page
+                            messages.warning(request, "Transaction failed. Please try again.")
+                            return redirect('/')
+                    
+                    except requests.RequestException as err:
+                        logger.error(f"Failed to initiate payment: {err}")
+                        # Print the full traceback in development mode
+                        if settings.DEBUG:
+                            import traceback
+                            traceback.print_exc()
+                        return JsonResponse({'error': 'Failed to initiate payment'})
+
+                # If payment method is pay on delivery, update order status and redirect to order confirmation
+                elif billing_data['payment_method'] == 'pay_on_delivery':
+                    order.payment_confirmed = True
+                    order.save()
+                    
+                    # Clear the cart after successful order confirmation
+                    del request.session['cart_data_obj']
+
+                    return redirect('order-confirmation')
+
+                else:
+                    # Invalid payment method
+                    return JsonResponse({'error': 'Invalid payment method'})
+
+            else:
+                return JsonResponse({'error': 'Invalid form data'})
+        else:
+            form = BillingForm()
+
+        return render(request, 'product/checkout.html', {
+            'cart_data': cart_data,
+            'totalcartitems': len(cart_data),
+            'cart_total_amount': cart_total_amount,
+            'form': form,
+        })
+    else:
+        return JsonResponse({'error': 'Your cart is empty!'})
+    
+@csrf_exempt
+@require_http_methods(['POST', 'GET'])
+def webhook(request):
+    request_json = request.body
+    print(request_json)
+    return HttpResponse("Successful")
+    
+def order_confirmation(request):
+
+    context = {
+        'redirect_delay': 5,  # Delay in seconds
+    }
+
+    return render(request, 'product/order-confirmation.html', context)
+
+
+def invoice(request):
+    cart_total_amount = 0
+    if 'cart_data_obj' in request.session:
+        for p_id, item in request.session['cart_data_obj'].items():
+            cart_total_amount += int(item['qty']) * float(item['price'])
+
+        order = CartOrder.objects.all()
+
+    return render(request, "product/invoice.html", {"cart_data": request.session['cart_data_obj'], 'totalcartitems': len(request.session['cart_data_obj']), 'cart_total_amount': cart_total_amount, 'order': order})
+
+
+def ajax_add_review(request, pid):
+    product = Product.objects.get(pk=pid)
+
+    reviews = ProductReview.objects.create(
+        product=product,
+        name=request.POST['name'],
+        review=request.POST['review'],
+        rating=request.POST['rating'],
+    )
+
+    context = {
+        'name': request.POST['name'],
+        'review': request.POST['review'],
+        'rating': request.POST['rating'],
+    }
+
+    average_reviews = ProductReview.objects.filter(
+        product=product).aggregate(rating=Avg("rating"))
+
+    return JsonResponse(
+        {
+            'bool': True,
+            'context': context,
+            'average_reviews': average_reviews
+        }
+)

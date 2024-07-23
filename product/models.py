@@ -4,12 +4,6 @@ from shortuuid.django_fields import ShortUUIDField
 from django.utils.html import mark_safe
 from userauths.models import User
 
-STATUS_CHOICES = (
-    ('processing', 'Processing'),
-    ('shipped', 'Shipped'),
-    ('delivered', 'Delivered'),
-)
-
 RATING = (
     ('1', '⭐✰✰✰✰'),
     ('2', '⭐⭐✰✰✰'),
@@ -39,8 +33,8 @@ class Product(models.Model):
     title = models.CharField(max_length=100, default="Product name")
     image = models.ImageField(upload_to="products", default="product.jpg")
     description = RichTextUploadingField(null=True, blank=True, default="This is a product description")
-    price = models.DecimalField(max_digits=10, decimal_places=2, default="1.99")
-    old_price = models.DecimalField(max_digits=10, decimal_places=2, default="2.99")
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=1.99)
+    old_price = models.DecimalField(max_digits=10, decimal_places=2, default=2.99)
     specifications = RichTextUploadingField(null=True, blank=True)
     in_stock = models.BooleanField(default=True)
     sku = ShortUUIDField(unique=True, length=4, max_length=10, prefix="sku", alphabet="1234567890")
@@ -76,11 +70,19 @@ class ProductImages(models.Model):
         verbose_name_plural = 'Product Images'
     
 
+# ... (your existing imports)
+
 class CartOrder(models.Model):
     PAYMENT_METHOD_CHOICES = [
         ('pay_on_delivery', 'Pay on Delivery'),
         ('online_payment', 'Online Payment'),
     ]
+    STATUS_CHOICES = [
+        ('processing', 'Processing'),
+        ('shipped', 'Shipped'),
+        ('delivered', 'Delivered'),
+    ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=100, null=True, blank=True)
     last_name = models.CharField(max_length=100, null=True, blank=True)
@@ -95,17 +97,19 @@ class CartOrder(models.Model):
     payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES, default='pay_on_delivery')
     order_date = models.DateTimeField(auto_now_add=True)
     product_status = models.CharField(choices=STATUS_CHOICES, max_length=30, default='processing')
+    payment_reference = models.CharField(max_length=512, null=True, blank=True)
+    payment_confirmed = models.BooleanField(default=False)
 
     class Meta:
-        verbose_name_plural = 'Cart Order'
+        verbose_name_plural = 'Cart Orders'
 
     def __str__(self):
         return f"Order #{self.pk}"
-    
+
     def full_name(self):
         name = f"{self.first_name} {self.last_name}"
         return name
-    
+
 class CartOrderItems(models.Model):
     order = models.ForeignKey(CartOrder, on_delete=models.CASCADE, null=True)
     product = models.ForeignKey('Product', on_delete=models.CASCADE, null=True)
@@ -116,6 +120,8 @@ class CartOrderItems(models.Model):
     qty = models.PositiveIntegerField(default=2)
     price = models.DecimalField(max_digits=10, decimal_places=2, default="1.99")
     total = models.DecimalField(max_digits=10, decimal_places=2, default="1.99")
+    item_confirmed = models.BooleanField(default=False)
+    payment_confirmed = models.BooleanField(default=False)
 
     class Meta:
         verbose_name_plural = 'Cart Order Items'
@@ -125,7 +131,7 @@ class CartOrderItems(models.Model):
             return mark_safe('<img src="%s" width="100" height="100" />' % (self.image.url))
         else:
             return 'No Image Found'
-           
+
     def __str__(self):
         return f"{self.qty} x {self.product.title} - {self.price}"
 
@@ -144,7 +150,7 @@ class ProductReview(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, related_name="review")
     review = models.TextField()
-    rating = models.CharField(choices=RATING, default=None, max_length=10)
+    rating = models.CharField(choices=RATING, default='1', max_length=10)
     date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -153,7 +159,7 @@ class ProductReview(models.Model):
     def __str__(self):
         return self.product.title
     
-    def get_ratting(self):
+    def get_rating(self):
         return self.rating
     
 

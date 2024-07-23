@@ -13,6 +13,7 @@ urlpatterns = [
     path('delete-from-cart/', views.delete_from_cart, name="delete-from-cart"),
     path('checkout/', views.checkout, name="checkout"),
     path('process-order/', views.process_order, name="process-order"),
+    # path('webhook', views.webhook, name='webhook'),
     path('order-confirmation/', views.order_confirmation, name="order-confirmation"),
     path('invoice/', views.invoice, name="invoice"),
 
